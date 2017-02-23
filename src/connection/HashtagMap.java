@@ -23,22 +23,22 @@ public class HashtagMap {
 	
 	/*Inserimento di un nuovo hashtag o aggiornamento delle occorrenze dell'hashtag fra i tweets ritrovati*/
 	
-	public void insertHastag(String hashtag){
-		if(this.hashtagMap.containsKey(hashtag)){
-			int value = this.hashtagMap.get(hashtag);
+	public void insertHastag(HashMap<String, Integer> map, String hashtag){
+		if(map.containsKey(hashtag)){
+			int value = map.get(hashtag);
 			value++;
-			this.hashtagMap.replace(hashtag, value);
+			map.replace(hashtag, value);
 		}
 		else {
-			this.hashtagMap.put(hashtag, 1);
+			map.put(hashtag, 1);
 		}
 	}
 	
 	/*Prendo tutti gli hashtag che hanno un numero di occorrenze nei tweets maggiore al valore specificato*/
 	
-	public List<String> getTopHashtagsByMinValue (int n){
+	public List<String> getTopHashtagsByMinValue (HashMap<String, Integer> map, int n){
 		List<String> listHashtags = new ArrayList<String>();
-		Iterator<Map.Entry<String, Integer>> entries = this.hashtagMap.entrySet().iterator();
+		Iterator<Map.Entry<String, Integer>> entries = map.entrySet().iterator();
 		
 		while (entries.hasNext()){
 			
@@ -58,10 +58,10 @@ public class HashtagMap {
 	/*Prendo tutti gli hashtag che hanno un numero di occorrenze nei tweets che è minimo la metà del numero dei tweets 
 	 * ritornati alla prima ricerca, n dovrebbe essere il numero di tweets ritornati*/
 	
-	public List<String> getTopHashtagsByHalfOfTweets (int n){
+	public List<String> getTopHashtagsByHalfOfTweets (HashMap<String, Integer> map, int n){
 		int half = n/2;
 		List<String> listHashtags = new ArrayList<String>();
-		Iterator<Map.Entry<String, Integer>> entries = this.hashtagMap.entrySet().iterator();
+		Iterator<Map.Entry<String, Integer>> entries = map.entrySet().iterator();
 		
 		while (entries.hasNext()){
 			
@@ -80,9 +80,9 @@ public class HashtagMap {
 	
 	/*Prende i top 3 hashtag che hanno il maggior numero di occorrenze*/
 	
-	public List<String> getTop3Hastags(){
+	public List<String> getTop3Hastags(HashMap<String, Integer> map){
 		List<String> listHashtags = new ArrayList<String>();
-		Iterator<Map.Entry<String, Integer>> entries = this.hashtagMap.entrySet().iterator();
+		Iterator<Map.Entry<String, Integer>> entries = map.entrySet().iterator();
 		
 		while (entries.hasNext()){
 			
@@ -90,7 +90,7 @@ public class HashtagMap {
 			String key = (String) thisEntry.getKey();
 			int value = (int) thisEntry.getValue();
 			
-			Iterator<Map.Entry<String, Integer>> entries2 = this.hashtagMap.entrySet().iterator();
+			Iterator<Map.Entry<String, Integer>> entries2 = map.entrySet().iterator();
 			int count = 0;
 			while (entries2.hasNext() && count < 3){
 				
