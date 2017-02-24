@@ -1,13 +1,7 @@
 package connection;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import twitter4j.Query;
-import twitter4j.QueryResult;
-import twitter4j.Status;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -30,31 +24,5 @@ public class TwitterConnection {
 		return twitter;
 	}
 
-	public List<Status> getTwitsForHashtag(String hashtag) throws TwitterException {
-		List<Status> ret = new ArrayList<>();
-		try {
-			Query q = new Query(hashtag + " lang:it");
-			q.setCount(100);
-			QueryResult qr; 
-			int cont=0;
-			do {
-				qr = twitter.search(q);
-				List<Status> tweets = qr.getTweets();
-				ret.addAll(tweets);
-				for (Status tweet : tweets) {
-					System.out.println("@" + tweet.getUser().getScreenName() +
-							" - " + tweet.getCreatedAt() +
-							" - " + tweet.getText());
-					cont++;
-				}
-			} while ((q = qr.nextQuery()) != null);
-			System.out.println(cont);
-		} catch (TwitterException te) {
-			te.printStackTrace();
-			System.out.println("Failed to search tweets: " + te.getMessage());
-		}
-		return ret;
-
-	}
 	
 }
