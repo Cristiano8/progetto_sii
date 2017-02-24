@@ -14,7 +14,7 @@ public class Main {
 
 //		long start = System.nanoTime();
 
-		List<Status> d = tc.getTwitsForHashtag("#tordivalle");
+		List<Status> d = tc.getTwitsForHashtag("#tordivalle OR #famostostadio");
 //		System.out.println("#asroma: " + d.size());
 		
 //		List<Status> s = tc.getTwitsForHashtag("#asroma OR asroma OR asr");
