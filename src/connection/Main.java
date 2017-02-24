@@ -1,5 +1,6 @@
 package connection;
 
+import java.util.HashMap;
 import java.util.List;
 
 import twitter4j.Status;
@@ -29,6 +30,14 @@ public class Main {
 		//			System.out.println(t.getUser() + "\n");
 		//			System.out.println(t.getText() + "\n\n");
 		//		}
+		
+		/*PROVE*/
+		//HashtagMap c = new HashtagMap();
+		//HashMap<String, Integer> map = c.createHashtagMap();
+		//c.getTop3Hastags(map);
+		//c.getTopHashtagsByHalfOfTweets(map, 1000);
+		//c.getTopHashtagsByMinValue(map, 30);
+		
 		
 
 	}
