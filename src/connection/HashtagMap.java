@@ -27,9 +27,23 @@ public class HashtagMap {
 	public void setHashtagMap(HashMap<String, Integer> hashtagMap) {
 		this.hashtagMap = hashtagMap;
 	}
+	
+	public Integer get(String hashtag) {
+		return this.hashtagMap.get(hashtag);
+	}
+	
+	public int size() {
+		return this.hashtagMap.size();
+	}
+	
+	/* ritorna una lista contenente tutti gli hashtag presenti nella mappa */
+	public List<String> getAllHashtags() {
+		List<String> listHashtags = new ArrayList<>();
+		listHashtags.addAll(this.hashtagMap.keySet());
+		return listHashtags;
+	}
 
-	/*Inserimento di un nuovo hashtag o aggiornamento delle occorrenze dell'hashtag fra i tweets ritrovati*/
-
+	/* Inserimento di un nuovo hashtag o aggiornamento delle occorrenze dell'hashtag fra i tweets ritrovati */
 	public void insertHastag(String hashtag){
 		if(this.hashtagMap.containsKey(hashtag)){
 			int value = this.hashtagMap.get(hashtag);
@@ -41,8 +55,8 @@ public class HashtagMap {
 		}
 	}
 
-	/*Prendo tutti gli hashtag che hanno un numero di occorrenze nei tweets maggiore o uguale al valore specificato*/
-
+	/* Prendo tutti gli hashtag che hanno un numero di occorrenze 
+	 * nei tweets maggiore o uguale al valore specificato */
 	public List<String> getTopHashtagsByMinValue (int n){
 		List<String> listHashtags = new ArrayList<String>();
 		Iterator<Map.Entry<String, Integer>> entries = this.hashtagMap.entrySet().iterator();
@@ -85,7 +99,7 @@ public class HashtagMap {
 		return listHashtags;
 	}
 
-	/*Prende i top threshold hashtag che hanno il maggior numero di occorrenze*/
+	/* Prende i top threshold hashtag che hanno il maggior numero di occorrenze*/
 	// complessità O(N^2) si può fare anche O(N)?
 	public List<String> getTopHashtags(int threshold){
 		
@@ -121,9 +135,7 @@ public class HashtagMap {
 
 				}
 
-				if (count < threshold) {	//Se l'iteratore arriva alla fine vuol dire che non ha superato il count<3
-					//EDIT: se il next è NULL ma count < threshold aggiunge l'elemento ugualmente perciò
-					//il controllo va fatto sul count
+				if (count < threshold) {  //Se l'iteratore arriva alla fine vuol dire che non ha superato il count<3
 					listHashtags.add(key);
 				}
 
@@ -140,8 +152,8 @@ public class HashtagMap {
 
 
 	}
-	
 
+	
 
 	/*
 	/* rigira una mappa: es da Map<Key,Value> a Map<Value,Key> /*

@@ -30,16 +30,16 @@ public class HashtagMapTest {
 	@Test
 	public void testInsertHastag_NewElement() {
 		String hashtag = "z";
-		int size = hashtagMap.getHashtagMap().size();
+		int size = hashtagMap.size();
 		this.hashtagMap.insertHastag(hashtag);
-		assertEquals(this.hashtagMap.getHashtagMap().size(), size + 1);
-		assertEquals(this.hashtagMap.getHashtagMap().get(hashtag).intValue(), 1);
+		assertEquals(this.hashtagMap.size(), size + 1);
+		assertEquals(this.hashtagMap.get(hashtag).intValue(), 1);
 	}
 	
 	@Test
 	public void testInsertHastag_OldElement() {
 		this.hashtagMap.insertHastag("a");
-		assertEquals(this.hashtagMap.getHashtagMap().get("a").intValue(), 6);
+		assertEquals(this.hashtagMap.get("a").intValue(), 6);
 	}
 	
 	//Test Get Hashtag by MinValue
@@ -91,7 +91,7 @@ public class HashtagMapTest {
 	public void testGetTop7Hashtags() {
 		List<String> top7Hashtag = this.hashtagMap.getTopHashtags(7);
 		
-		assertTrue(top7Hashtag.size() == this.hashtagMap.getHashtagMap().size());
+		assertTrue(top7Hashtag.size() == this.hashtagMap.size());
 		
 		assertTrue(top7Hashtag.contains("a"));
 		assertTrue(top7Hashtag.contains("b"));
