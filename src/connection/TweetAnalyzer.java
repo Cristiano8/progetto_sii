@@ -20,12 +20,13 @@ public class TweetAnalyzer {
 	public TweetAnalyzer() {
 		this.tc = new TwitterConnection();
 		this.twitter = tc.getTwitter();
-		this.tp = new TweetProcessor();
+		// this.tp = new TweetProcessor();
 	}
 
 	public List<Status> getTwitsForHashtag(String hashtag) throws TwitterException {
 		
 		List<Status> tweets = new ArrayList<>();
+		this.tp = new TweetProcessor(hashtag);
 		
 		try {
 			
@@ -40,7 +41,7 @@ public class TweetAnalyzer {
 				
 				for (Status tweet : tweetsInAPage) {
 					
-					tp.getRelatedHashtags(tweet.getText()); // cerco altri hashtag nel Tweet
+					//tp.getRelatedHashtags(tweet.getText()); // cerco altri hashtag nel Tweet
 					System.out.println("@" + tweet.getUser().getScreenName() +
 							" - " + tweet.getCreatedAt() +
 							" - " + tweet.getText());

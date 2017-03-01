@@ -10,13 +10,15 @@ public class Main {
 	public static void main(String args[]) throws TwitterException {
 
 
-		TweetAnalyzer ta = new TweetAnalyzer();
+		//TweetAnalyzer ta = new TweetAnalyzer();
 
 //		long start = System.nanoTime();
 
-		List<Status> d = ta.getTwitsForHashtag("#tordivalle OR #famostostadio");
+		//List<Status> d = ta.getTwitsForHashtag("#tordivalle");
 		
-		System.out.println(d.size());
+		
+		
+		//System.out.println(d.size());
 		
 //		List<Status> s = tc.getTwitsForHashtag("#asroma OR asroma OR asr");
 //		System.out.println("#asroma + asroma + asr: " + s.size());
