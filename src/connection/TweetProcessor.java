@@ -14,8 +14,8 @@ public class TweetProcessor {
 	}
 	
 	public void getRelatedHashtags(String tweetMessage) {
-		List<String> relatedHashtag = processTweet(tweetMessage);
-		
+		//List<String> relatedHashtag = processTweet(tweetMessage);
+		processTweet(tweetMessage);
 		//for (String hashtag : relatedHashtag) {
 		//	this.hashtagMap.insertHastag(hashtag);
 		//}

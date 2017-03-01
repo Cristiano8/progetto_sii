@@ -1,6 +1,7 @@
 package connection;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import twitter4j.Query;
