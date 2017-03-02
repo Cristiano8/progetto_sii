@@ -6,23 +6,20 @@ import java.util.List;
 public class TweetProcessor {
 	
 	private HashtagMap hashtagMap;
-	private String hashtagToExpand;
 	
-	public TweetProcessor(String s) {
+	public TweetProcessor() {
 		this.hashtagMap = new HashtagMap();
-		this.hashtagToExpand = s;
 	}
 	
-	public void getRelatedHashtags(String tweetMessage) {
-		//List<String> relatedHashtag = processTweet(tweetMessage);
-		processTweet(tweetMessage);
-		//for (String hashtag : relatedHashtag) {
-		//	this.hashtagMap.insertHastag(hashtag);
-		//}
+	public void getRelatedHashtags(String tweetMessage, String hashtagToExpand) {
+		List<String> relatedHashtag = processTweet(tweetMessage, hashtagToExpand);
+		for (String hashtag : relatedHashtag) {
+			this.hashtagMap.insertHastag(hashtag);
+		}
 		
 	}
 
-	private List<String> processTweet(String tweetMessage) {
+	private List<String> processTweet(String tweetMessage, String hashtagToExpand) {
 		// TODO cercare tutti gli hashtag nel messaggio da aggiungere alla mappa degli hashtag
 		
 		List<String> relatedHashtag = new ArrayList<String> ();
@@ -40,13 +37,21 @@ public class TweetProcessor {
 					/*Se matcha non fare niente altrimenti probabilmente l'hashtag è finito*/
 					if ((tweetMessage.charAt(j)>= 'a' && tweetMessage.charAt(j)<= 'z') ||
 							(tweetMessage.charAt(j)>= 'A' && tweetMessage.charAt(j)<= 'Z') ||
-							tweetMessage.charAt(j)>= '0' && tweetMessage.charAt(j)<= '9'){
+							(tweetMessage.charAt(j)>= '0' && tweetMessage.charAt(j)<= '9') ||
+							(tweetMessage.charAt(j)>= 128 && tweetMessage.charAt(j)<= 237)){
 					}
 					else {
 						currentHashtag = tweetMessage.substring(i, j);
 						hashtagFound = true;
-						i = j;
-						relatedHashtag.add(currentHashtag);
+						
+						/*Se ci sono due hashtag senza spazio in mezzo*/
+						if (tweetMessage.charAt(j) == 35){
+							i = j-1;
+						}
+						
+						if (!currentHashtag.equalsIgnoreCase(hashtagToExpand)){
+							relatedHashtag.add(currentHashtag);
+						}
 					}
 						
 				}
@@ -62,4 +67,13 @@ public class TweetProcessor {
 		
 		return relatedHashtag;
 	}
+
+	public HashtagMap getHashtagMap() {
+		return hashtagMap;
+	}
+
+	public void setHashtagMap(HashtagMap hashtagMap) {
+		this.hashtagMap = hashtagMap;
+	}
+	
 }
