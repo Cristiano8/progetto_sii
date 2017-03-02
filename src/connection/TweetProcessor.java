@@ -26,21 +26,31 @@ public class TweetProcessor {
 		// TODO cercare tutti gli hashtag nel messaggio da aggiungere alla mappa degli hashtag
 		
 		List<String> relatedHashtag = new ArrayList<String> ();
-		//int indiceHashtag = tweetMessage.indexOf("#");
-		//int indiceFineHastag = tweetMessage.indexOf(" ", indiceHashtag);
-		//String hashtag = tweetMessage.substring(indiceHashtag,indiceFineHastag);
-		//System.out.println(hashtag);
 		
-		int endIndex = 0;
-		
-		while (tweetMessage.indexOf("#", endIndex) != -1){
-		
-			int beginIndex = tweetMessage.indexOf("#", endIndex);
-			endIndex = tweetMessage.indexOf(" ", beginIndex);
-			String currentHashtag = tweetMessage.substring(beginIndex,endIndex-1);
+		/*Scorro tutta la stringa alla ricerca degli hashtags*/
+		for (int i = 0; i < tweetMessage.length(); i++){
 			
-			if (!currentHashtag.equals(hashtagToExpand)){
-				relatedHashtag.add(currentHashtag);
+			/*Quando incontro un hashtag*/
+			if (tweetMessage.charAt(i) == '#'){
+				
+				int j = 0;
+				String currentHashtag = "";
+				boolean hashtagFound = false;
+				for (j = i+1; j < tweetMessage.length() && !hashtagFound; j++){
+					/*Se matcha non fare niente altrimenti probabilmente l'hashtag è finito*/
+					if ((tweetMessage.charAt(j)>= 'a' && tweetMessage.charAt(j)<= 'z') ||
+							(tweetMessage.charAt(j)>= 'A' && tweetMessage.charAt(j)<= 'Z') ||
+							tweetMessage.charAt(j)>= '0' && tweetMessage.charAt(j)<= '9'){
+					}
+					else {
+						currentHashtag = tweetMessage.substring(i, j);
+						hashtagFound = true;
+						i = j;
+						relatedHashtag.add(currentHashtag);
+					}
+						
+				}
+				
 			}
 			
 		}
@@ -48,6 +58,7 @@ public class TweetProcessor {
 		for (String s : relatedHashtag){
 			System.out.println(s);
 		}
+		
 		
 		return relatedHashtag;
 	}

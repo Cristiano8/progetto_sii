@@ -27,29 +27,39 @@ public class TweetAnalyzer {
 	public List<Status> getTwitsForHashtag(String hashtag) throws TwitterException {
 		
 		List<Status> tweets = new ArrayList<>();
-		this.tp = new TweetProcessor(hashtag);
+		this.tp = new TweetProcessor(hashtag); //Gli passo l'hashtag ricercato per evitare i doppioni
 		
 		try {
 			
 			Query q = new Query(hashtag + " lang:it");
 			q.setCount(100);
-			QueryResult qr; 
+			QueryResult qr;
 			
-			do {
-				qr = twitter.search(q);
-				List<Status> tweetsInAPage = qr.getTweets();
-				tweets.addAll(tweetsInAPage);
-				
-				for (Status tweet : tweetsInAPage) {
-					
-					//tp.getRelatedHashtags(tweet.getText()); // cerco altri hashtag nel Tweet
-					System.out.println("@" + tweet.getUser().getScreenName() +
-							" - " + tweet.getCreatedAt() +
-							" - " + tweet.getText());
-				}
-				
-			} while ((q = qr.nextQuery()) != null);
-			
+			/*Prova per tweetProcessor*/
+			qr = twitter.search(q);
+			List<Status> tweetsInAPage = qr.getTweets();
+			tweets.addAll(tweetsInAPage);
+			tp.getRelatedHashtags(tweets.get(0).getText());
+			System.out.println("@" + tweets.get(0).getUser().getScreenName() +
+					" - " + tweets.get(0).getCreatedAt() +
+					" - " + tweets.get(0).getText());
+ 			
+//			do {
+//				qr = twitter.search(q);
+//				List<Status> tweetsInAPage = qr.getTweets();
+//				tweets.addAll(tweetsInAPage);
+//				
+//				for (Status tweet : tweetsInAPage) {
+//					
+//					tp.getRelatedHashtags(tweet.getText()); // cerco altri hashtag nel Tweet
+//					System.out.println("@" + tweet.getUser().getScreenName() +
+//							" - " + tweet.getCreatedAt() +
+//							" - " + tweet.getText());
+//					
+//				}
+//				
+//			} while ((q = qr.nextQuery()) != null);
+//			
 		} catch (TwitterException te) {
 			te.printStackTrace();
 			System.out.println("Failed to search tweets: " + te.getMessage());
