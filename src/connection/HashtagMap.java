@@ -42,10 +42,11 @@ public class HashtagMap {
 		listHashtags.addAll(this.hashtagMap.keySet());
 		return listHashtags;
 	}
+	
 
 	/* Inserimento di un nuovo hashtag o aggiornamento delle occorrenze dell'hashtag fra i tweets ritrovati */
-	public void insertHastag(String hashtag){
-		if(this.hashtagMap.containsKey(hashtag)){
+	public void insertHastag(String hashtag) {
+		if(this.hashtagMap.containsKey(hashtag)) {
 			int value = this.hashtagMap.get(hashtag);
 			value++;
 			this.hashtagMap.replace(hashtag, value);
@@ -57,17 +58,17 @@ public class HashtagMap {
 
 	/* Prendo tutti gli hashtag che hanno un numero di occorrenze 
 	 * nei tweets maggiore o uguale al valore specificato */
-	public List<String> getTopHashtagsByMinValue (int n){
+	public List<String> getTopHashtagsByValue(int minValue) {
 		List<String> listHashtags = new ArrayList<String>();
 		Iterator<Map.Entry<String, Integer>> entries = this.hashtagMap.entrySet().iterator();
 
-		while (entries.hasNext()){
+		while (entries.hasNext()) {
 
 			Entry<String, Integer> thisEntry = (Entry<String, Integer>) entries.next();
 			String key = thisEntry.getKey();
 			int value = thisEntry.getValue();
 
-			if (value >= n){
+			if (value >= minValue) {
 				listHashtags.add(key);
 			}
 
@@ -79,12 +80,12 @@ public class HashtagMap {
 	/*Prendo tutti gli hashtag che hanno un numero di occorrenze nei tweets che è minimo la metà del numero dei tweets 
 	 * ritornati alla prima ricerca, n dovrebbe essere il numero di tweets ritornati*/
 
-	public List<String> getTopHashtagsByHalfOfTweets (int n){
+	public List<String> getTopHashtagsByHalfOfTweets(int n) {
 		int half = n/2;
 		List<String> listHashtags = new ArrayList<String>();
 		Iterator<Map.Entry<String, Integer>> entries = this.hashtagMap.entrySet().iterator();
 
-		while (entries.hasNext()){
+		while (entries.hasNext()) {
 
 			Entry<String, Integer> thisEntry = (Entry<String, Integer>) entries.next();
 			String key = thisEntry.getKey();
@@ -98,10 +99,37 @@ public class HashtagMap {
 
 		return listHashtags;
 	}
+	
+	public List<String> getHashtagOverMean() {
+		List<String> hashtagOverMean = new ArrayList<>();
+		
+		List<Integer> values = new ArrayList<>(this.hashtagMap.values());
+		int mean = this.computeMean(values);
+		
+		Iterator<Map.Entry<String, Integer>> entries = this.hashtagMap.entrySet().iterator();
+		
+		while (entries.hasNext()) {
+			Entry<String, Integer> thisEntry = (Entry<String, Integer>) entries.next();
+			if (thisEntry.getValue() >= mean) {
+				hashtagOverMean.add(thisEntry.getKey());
+			}
+		}
+		
+		return hashtagOverMean;
+	}
+
+	
+	private int computeMean(List<Integer> values) {
+		int total = 0;
+		for (Integer i : values) {
+			total += i.intValue();
+		}
+		return total/values.size();
+	}
 
 	/* Prende i top threshold hashtag che hanno il maggior numero di occorrenze*/
 	// complessità O(N^2) si può fare anche O(N)?
-	public List<String> getTopHashtags(int threshold){
+	public List<String> getTopHashtags(int threshold) {
 		
 		if (threshold <= 0) {
 			return null; //dovremmo fare un eccezione se ci andrà
@@ -118,7 +146,7 @@ public class HashtagMap {
 
 			Iterator<Map.Entry<String, Integer>> entries = this.hashtagMap.entrySet().iterator();
 
-			while (entries.hasNext()){
+			while (entries.hasNext()) {
 
 				Entry<String, Integer> thisEntry = (Entry<String, Integer>) entries.next();
 				String key = thisEntry.getKey();
@@ -165,4 +193,9 @@ public class HashtagMap {
 		return inverseMap;
 	}
 	 */
+	
+	@Override
+	public String toString() {
+		return this.hashtagMap.toString();
+	}
 }

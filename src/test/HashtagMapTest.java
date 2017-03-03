@@ -47,7 +47,7 @@ public class HashtagMapTest {
 	@Test
 	public void testGetTopHashtagsByMinValue() {
 		List<String> topHashtag = new ArrayList<>();
-		topHashtag = this.hashtagMap.getTopHashtagsByMinValue(6);
+		topHashtag = this.hashtagMap.getTopHashtagsByValue(6);
 		
 		assertTrue(topHashtag.contains("d"));
 		assertTrue(topHashtag.contains("e"));
@@ -60,7 +60,7 @@ public class HashtagMapTest {
 	@Test
 	public void testGetTopHashtagsByMinValue_Empty() {
 		List<String> topHashtag = new ArrayList<>();
-		topHashtag = this.hashtagMap.getTopHashtagsByMinValue(10);
+		topHashtag = this.hashtagMap.getTopHashtagsByValue(10);
 		assertTrue(topHashtag.isEmpty());
 	}
 	
