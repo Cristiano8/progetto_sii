@@ -100,12 +100,14 @@ public class HashtagMap {
 		return listHashtags;
 	}
 	
+	/* ritorna la lista degli hashtag che hanno più occorrenze rispetto alla media (calcolata levando
+	 * i valori che hanno un'unica occorrenza, che fanno abbassare di molto la media) */
 	public List<String> getHashtagOverMean() {
 		List<String> hashtagOverMean = new ArrayList<>();
 		
 		List<Integer> values = new ArrayList<>(this.hashtagMap.values());
-		int mean = this.computeMean(values);
-		
+		int mean = this.computeMeanWithoutSingleValues(values);
+		System.out.println(mean);
 		Iterator<Map.Entry<String, Integer>> entries = this.hashtagMap.entrySet().iterator();
 		
 		while (entries.hasNext()) {
@@ -119,12 +121,17 @@ public class HashtagMap {
 	}
 
 	
-	private int computeMean(List<Integer> values) {
+	private int computeMeanWithoutSingleValues(List<Integer> values) {
 		int total = 0;
+		int cont = 0;
 		for (Integer i : values) {
-			total += i.intValue();
+			if (i.intValue() != 1) {
+				total += i.intValue();
+				cont++;
+			}
+			
 		}
-		return total/values.size();
+		return total/cont;
 	}
 
 	/* Prende i top threshold hashtag che hanno il maggior numero di occorrenze*/

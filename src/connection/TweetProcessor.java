@@ -54,7 +54,7 @@ public class TweetProcessor {
 						
 						// l'hashtag trovato non è uguale a quello da espandere aggiungilo alla mappa degli hashtag
 						if (!currentHashtag.equalsIgnoreCase(hashtagToExpand)) {
-							relatedHashtag.add(currentHashtag);
+							relatedHashtag.add(currentHashtag.toLowerCase());
 						}
 					}
 						
@@ -84,10 +84,5 @@ public class TweetProcessor {
 		this.hashtagMap = hashtagMap;
 	}
 
-	public void printHashtagMap() {
-		System.out.println(this.hashtagMap.toString());
-		this.hashtagMap.toString();
-		
-	}
 	
 }

@@ -17,11 +17,13 @@ public class TweetAnalyzer {
 	private Twitter twitter;	
 	private TwitterConnection tc;
 	private TweetProcessor tp;
+	private HashtagMap hm;
 
 	public TweetAnalyzer() {
 		this.tc = new TwitterConnection();
 		this.twitter = tc.getTwitter();
 		this.tp = new TweetProcessor();
+		this.hm = tp.getHashtagMap();
 	}
 
 	public List<Status> getTwitsForHashtag(String query) throws TwitterException {
@@ -66,7 +68,8 @@ public class TweetAnalyzer {
 			System.out.println("Failed to search tweets: " + te.getMessage());
 		}
 
-		tp.printHashtagMap();
+		System.out.println(hm.toString());
+		System.out.println(hm.getHashtagOverMean().toString());
 
 		return tweets;
 

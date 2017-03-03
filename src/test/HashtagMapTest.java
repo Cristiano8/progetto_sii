@@ -106,5 +106,20 @@ public class HashtagMapTest {
 		
 		assertNull(top0Hashtag);
 	}
+	
+	// Test Get Hashtag Over Mean
+	@Test
+	public void testGetHashtagOverMean() {
+		List<String> topHashtagByMean = this.hashtagMap.getHashtagOverMean();
+		
+		assertTrue(topHashtagByMean.size() == 3);
+		
+		assertTrue(topHashtagByMean.contains("a"));
+		assertTrue(topHashtagByMean.contains("d"));
+		assertTrue(topHashtagByMean.contains("e"));
+		
+		assertFalse(topHashtagByMean.contains("b"));
+		assertFalse(topHashtagByMean.contains("c"));
+	}
 
 }
