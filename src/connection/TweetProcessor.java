@@ -83,6 +83,14 @@ public class TweetProcessor {
 	public void setHashtagMap(HashtagMap hashtagMap) {
 		this.hashtagMap = hashtagMap;
 	}
+	
+	/*HashCode of the tweet to not insert the same tweet multiple times in the db*/
+	public int doTheHashCode(String s){
+		int hashCode = s.hashCode();
+		System.out.println("The hashcode for " + s + " is " + hashCode);
+		return hashCode;
+	}
+
 
 	
 }
