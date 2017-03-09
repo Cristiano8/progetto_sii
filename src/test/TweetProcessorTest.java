@@ -37,7 +37,7 @@ public class TweetProcessorTest {
 		assertEquals(1, tweetProcessor.getHashtagMap().size());	
 		
 		List<String> comparator = new ArrayList<>();
-		comparator.add("#forzaRoma");
+		comparator.add("#forzaroma");
 		assertEquals(tweetProcessor.getHashtagMap().getAllHashtags(), comparator);
 	}
 	
@@ -65,8 +65,8 @@ public class TweetProcessorTest {
 		assertEquals(2, tweetProcessor.getHashtagMap().size());	
 		
 		List<String> comparator = new ArrayList<>();
+		comparator.add("#sempronio");
 		comparator.add("#tizio");
-		comparator.add("#Sempronio");
 		assertEquals(tweetProcessor.getHashtagMap().getAllHashtags(), comparator);
 	}
 	
@@ -96,6 +96,14 @@ public class TweetProcessorTest {
 		comparator.add("#pomodoro");
 		comparator.add("#verza");
 		assertEquals(tweetProcessor.getHashtagMap().getAllHashtags(), comparator);
+	}
+	
+	/*Testo l'hashcode*/
+	@Test
+	public void hashCodeTest(){
+		String s1 = "Ciao, #forzaRoma, daje!!";
+		String s2 = "#famostostadio, sempre forza roma";
+		assertNotEquals(tweetProcessor.doTheHashCode(s1), tweetProcessor.doTheHashCode(s2));
 	}
 
 	
