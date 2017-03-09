@@ -120,7 +120,7 @@ public class HashtagMap {
 		return hashtagOverMean;
 	}
 
-	
+	/* calcola la media ignorando i valori che hanno un'unica occorrenza */
 	private int computeMeanWithoutSingleValues(List<Integer> values) {
 		int total = 0;
 		int cont = 0;
