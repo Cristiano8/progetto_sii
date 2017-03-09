@@ -75,7 +75,7 @@ public class HashtagMapTest {
 
 	@Test
 	public void testGetTop3Hashtags() {
-		List<String> top3Hashtag = this.hashtagMap.getTopHashtags(3);
+		List<String> top3Hashtag = this.hashtagMap.getTopHashtagsByThreshold(3);
 		
 		assertTrue(top3Hashtag.size() == 3);
 		
@@ -89,7 +89,7 @@ public class HashtagMapTest {
 	
 	@Test
 	public void testGetTop7Hashtags() {
-		List<String> top7Hashtag = this.hashtagMap.getTopHashtags(7);
+		List<String> top7Hashtag = this.hashtagMap.getTopHashtagsByThreshold(7);
 		
 		assertTrue(top7Hashtag.size() == this.hashtagMap.size());
 		
@@ -102,7 +102,7 @@ public class HashtagMapTest {
 	
 	@Test
 	public void testGetTop0Hashtags() {
-		List<String> top0Hashtag = this.hashtagMap.getTopHashtags(0);
+		List<String> top0Hashtag = this.hashtagMap.getTopHashtagsByThreshold(0);
 		
 		assertNull(top0Hashtag);
 	}

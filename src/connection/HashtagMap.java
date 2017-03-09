@@ -136,7 +136,7 @@ public class HashtagMap {
 
 	/* Prende i top threshold hashtag che hanno il maggior numero di occorrenze*/
 	// complessità O(N^2) si può fare anche O(N)?
-	public List<String> getTopHashtags(int threshold) {
+	public List<String> getTopHashtagsByThreshold(int threshold) {
 		
 		if (threshold <= 0) {
 			return null; //dovremmo fare un eccezione se ci andrà

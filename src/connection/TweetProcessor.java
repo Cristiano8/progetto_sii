@@ -5,6 +5,7 @@ import java.util.List;
 
 public class TweetProcessor {
 	
+	private static final int THRESHOLD = 3;
 	private HashtagMap hashtagMap;
 	
 	public TweetProcessor() {
@@ -63,16 +64,7 @@ public class TweetProcessor {
 			}
 			
 		}
-		
-		/*
-		for (String s : relatedHashtag){
-			System.out.println(s);
-		}
-		
-		System.out.println("\n");
-		*/
-		
-		
+				
 		return relatedHashtag;
 	}
 
@@ -89,6 +81,10 @@ public class TweetProcessor {
 		int hashCode = s.hashCode();
 		System.out.println("The hashcode for " + s + " is " + hashCode);
 		return hashCode;
+	}
+
+	public List<String> getTop3Hashtags() {
+		return this.hashtagMap.getTopHashtagsByThreshold(THRESHOLD);
 	}
 
 

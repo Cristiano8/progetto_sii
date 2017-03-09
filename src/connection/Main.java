@@ -1,8 +1,6 @@
 package connection;
 
-import java.util.List;
 
-import twitter4j.Status;
 import twitter4j.TwitterException;
 
 public class Main {
@@ -10,11 +8,11 @@ public class Main {
 	public static void main(String args[]) throws TwitterException {
 
 
-		TweetAnalyzer ta = new TweetAnalyzer();
+		TweetRetriever tr = new TweetRetriever();
 
 //		long start = System.nanoTime();
 
-		List<Status> d = ta.getTwitsForHashtag("#tordivalle");
+		tr.getTwitsForHashtag("#tordivalle");
 		
 		
 		
