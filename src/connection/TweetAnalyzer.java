@@ -69,7 +69,7 @@ public class TweetAnalyzer {
 		}
 
 		System.out.println(hm.toString());
-		System.out.println(hm.getTopHashtagsByValue(40).toString());
+		System.out.println(hm.getTopHashtags(5).toString());
 
 		return tweets;
 
