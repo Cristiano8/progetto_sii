@@ -170,7 +170,7 @@ public class HashtagMap {
 
 				}
 
-				if (count < threshold) {  //Se l'iteratore arriva alla fine vuol dire che non ha superato il count<3
+				if (count < threshold) {  //Se l'iteratore arriva alla fine vuol dire che non ha superato il count<threshold
 					listHashtags.add(key);
 				}
 
@@ -178,29 +178,72 @@ public class HashtagMap {
 		}
 		return listHashtags;
 
-
-		//		Map<Integer, String> inverseMap = reverseMap(map);
-		//		TreeMap<Integer, String> sortedInverseMap = new TreeMap<>(inverseMap);
-		//		
-		//		List<String> top3Hashtags = new ArrayList<>();
-		//		top3Hashtags.add(0, sortedInverseMap.);
-
-
 	}
-
 	
+	
+	/* TENTATIVO PER FARE IL METODO SOPRA O(N)
+	 * Scorro la mappa e aggiorno una mappa che ha i tre massimi temporanei, alla fine avrà i top hashtag 
+	public List<String> getTopHashtagsByThreshold2(int threshold) {
+		
+		// mappa che mantiene il topHashtag temporanei
+		Map<String, Integer> supportMap = new HashMap<>(threshold);
+		
+		Iterator<Map.Entry<String, Integer>> entries = this.hashtagMap.entrySet().iterator();
 
-	/*
-	/* rigira una mappa: es da Map<Key,Value> a Map<Value,Key> /*
-	private Map<Integer, String> reverseMap(Map<String, Integer> map) {
-		Map<Integer, String> inverseMap = new HashMap<>();
-		for(Map.Entry<String, Integer> entry : map.entrySet()){
-		    inverseMap.put(entry.getValue(), entry.getKey());
+		while (entries.hasNext()) {
+
+			Entry<String, Integer> thisEntry = (Entry<String, Integer>) entries.next();
+			
+			String hashtag = thisEntry.getKey();
+			int value = thisEntry.getValue();
+			
+			// prendo l'hashtag che ha il value più basso nella supportMap
+			Entry<String, Integer> hashtagWithMinValue = this.getHashtagWithMinValue(supportMap, threshold);
+			
+			// se la supportMap non è completa lo aggiungo a prescindere
+			if (hashtagWithMinValue == null) {
+				supportMap.put(hashtag, value);
+			}
+			
+			String minHashtag = hashtagWithMinValue.getKey();
+			int minValue = hashtagWithMinValue.getValue();
+			
+			// se l'hashtag corrente ha un valore maggiore del minimo della supportMap lo sostituisco
+			if(minValue < value) {
+				supportMap.remove(minHashtag);
+				supportMap.put(hashtag, value);
+			}
+		
 		}
-		return inverseMap;
+		
+		List<String> topHashtags = new ArrayList<>();
+		topHashtags.addAll(supportMap.keySet());
+		return topHashtags;
 	}
-	 */
+
 	
+	
+	private Entry<String, Integer> getHashtagWithMinValue(Map<String, Integer> topHashtags, int threshold) {
+			
+		if (topHashtags.size() < threshold) 
+			return null;
+		
+		else {
+			Iterator<Map.Entry<String, Integer>> entries = topHashtags.entrySet().iterator();	
+			Entry<String, Integer> minEntry = (Entry<String, Integer>) entries.next();
+			
+			while (entries.hasNext()) {
+				Entry<String, Integer> thisEntry = (Entry<String, Integer>) entries.next();
+				
+				if (thisEntry.getValue() < minEntry.getValue())
+					minEntry = thisEntry;
+			}
+			
+			return minEntry;
+		}
+		
+	} */
+
 	@Override
 	public String toString() {
 		return this.hashtagMap.toString();
