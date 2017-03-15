@@ -121,5 +121,20 @@ public class HashtagMapTest {
 		assertFalse(topHashtagByMean.contains("b"));
 		assertFalse(topHashtagByMean.contains("c"));
 	}
+	
+	//Test getTopHashstagByThresholdUsingASupportMap
+	@Test
+	public void testGetTopHashstagByThresholdUsingASupportMap(){
+		List<String> topHashtags = this.hashtagMap.getTopHashtagsByThresholdUsingASupportMap(3);
+		
+		assertEquals(topHashtags.size(), 3);
+		
+		assertTrue(topHashtags.contains("a"));
+		assertTrue(topHashtags.contains("d"));
+		assertTrue(topHashtags.contains("e"));
+		
+		assertFalse(topHashtags.contains("b"));
+		assertFalse(topHashtags.contains("c"));
+	}
 
 }

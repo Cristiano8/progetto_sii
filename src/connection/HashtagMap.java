@@ -182,8 +182,8 @@ public class HashtagMap {
 	
 	
 	/* TENTATIVO PER FARE IL METODO SOPRA O(N)
-	 * Scorro la mappa e aggiorno una mappa che ha i tre massimi temporanei, alla fine avrà i top hashtag 
-	public List<String> getTopHashtagsByThreshold2(int threshold) {
+	 *Scorro la mappa e aggiorno una mappa che ha i tre massimi temporanei, alla fine avrà i top hashtag*/ 
+	public List<String> getTopHashtagsByThresholdUsingASupportMap(int threshold) {
 		
 		// mappa che mantiene il topHashtag temporanei
 		Map<String, Integer> supportMap = new HashMap<>(threshold);
@@ -205,14 +205,20 @@ public class HashtagMap {
 				supportMap.put(hashtag, value);
 			}
 			
-			String minHashtag = hashtagWithMinValue.getKey();
-			int minValue = hashtagWithMinValue.getValue();
-			
-			// se l'hashtag corrente ha un valore maggiore del minimo della supportMap lo sostituisco
-			if(minValue < value) {
-				supportMap.remove(minHashtag);
-				supportMap.put(hashtag, value);
+			//altrimenti controllo se il valore più piccolo presente nella mappa di supporto è più piccolo del valore corrente
+			else{
+				
+				String minHashtag = hashtagWithMinValue.getKey();
+				int minValue = hashtagWithMinValue.getValue();
+				
+				// se l'hashtag corrente ha un valore maggiore del minimo della supportMap lo sostituisco
+				if(minValue < value) {
+					supportMap.remove(minHashtag);
+					supportMap.put(hashtag, value);
+				}
+				
 			}
+			
 		
 		}
 		
@@ -233,16 +239,18 @@ public class HashtagMap {
 			Entry<String, Integer> minEntry = (Entry<String, Integer>) entries.next();
 			
 			while (entries.hasNext()) {
-				Entry<String, Integer> thisEntry = (Entry<String, Integer>) entries.next();
+				Entry<String, Integer> currentEntry = (Entry<String, Integer>) entries.next();
 				
-				if (thisEntry.getValue() < minEntry.getValue())
-					minEntry = thisEntry;
+				if (currentEntry.getValue() < minEntry.getValue())
+					minEntry = currentEntry;
 			}
 			
 			return minEntry;
 		}
 		
-	} */
+	} 
+	
+	
 
 	@Override
 	public String toString() {
