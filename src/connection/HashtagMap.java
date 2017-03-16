@@ -192,10 +192,10 @@ public class HashtagMap {
 
 		while (entries.hasNext()) {
 
-			Entry<String, Integer> thisEntry = (Entry<String, Integer>) entries.next();
+			Entry<String, Integer> currentEntry = (Entry<String, Integer>) entries.next();
 			
-			String hashtag = thisEntry.getKey();
-			int value = thisEntry.getValue();
+			String hashtag = currentEntry.getKey();
+			int value = currentEntry.getValue();
 			
 			// prendo l'hashtag che ha il value più basso nella supportMap
 			Entry<String, Integer> hashtagWithMinValue = this.getHashtagWithMinValue(supportMap, threshold);

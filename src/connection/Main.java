@@ -7,14 +7,17 @@ public class Main {
 	
 	public static void main(String args[]) throws TwitterException {
 
-
+		double startTime = System.nanoTime();
+		
 		TweetRetriever tr = new TweetRetriever();
 
 //		long start = System.nanoTime();
 
-		tr.getTwitsForHashtag("#tordivalle");
+		tr.getTwitsForHashtag("#trump");
 		
+		double endTime = System.nanoTime();
 		
+		System.out.println("It took : " + (endTime - startTime)/1000000000 + " seconds");
 		
 		//System.out.println(d.size());
 		
