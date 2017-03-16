@@ -43,7 +43,6 @@ public class HashtagMapTest {
 	}
 	
 	//Test Get Hashtag by MinValue
-
 	@Test
 	public void testGetTopHashtagsByMinValue() {
 		List<String> topHashtag = new ArrayList<>();
@@ -64,18 +63,10 @@ public class HashtagMapTest {
 		assertTrue(topHashtag.isEmpty());
 	}
 	
-//	// Test Get Hashtag by Half of Tweets
-//
-//	@Test
-//	public void testGetTopHashtagsByHalfOfTweets() {
-//		fail("Not yet implemented");
-//	}
-	
-	// Test Get Top Hashtag
-
+	//Test Get Hashtag by Threshold
 	@Test
 	public void testGetTop3Hashtags() {
-		List<String> top3Hashtag = this.hashtagMap.getTopHashtagsByThreshold(3);
+		List<String> top3Hashtag = this.hashtagMap.getTopHashtagsByThresholdUsingASupportMap(3);
 		
 		assertTrue(top3Hashtag.size() == 3);
 		
@@ -89,7 +80,7 @@ public class HashtagMapTest {
 	
 	@Test
 	public void testGetTop7Hashtags() {
-		List<String> top7Hashtag = this.hashtagMap.getTopHashtagsByThreshold(7);
+		List<String> top7Hashtag = this.hashtagMap.getTopHashtagsByThresholdUsingASupportMap(7);
 		
 		assertTrue(top7Hashtag.size() == this.hashtagMap.size());
 		
@@ -102,7 +93,7 @@ public class HashtagMapTest {
 	
 	@Test
 	public void testGetTop0Hashtags() {
-		List<String> top0Hashtag = this.hashtagMap.getTopHashtagsByThreshold(0);
+		List<String> top0Hashtag = this.hashtagMap.getTopHashtagsByThresholdUsingASupportMap(0);
 		
 		assertNull(top0Hashtag);
 	}

@@ -84,7 +84,7 @@ public class TweetProcessor {
 	}
 
 	public List<String> getTop3Hashtags() {
-		return this.hashtagMap.getTopHashtagsByThreshold(THRESHOLD);
+		return this.hashtagMap.getTopHashtagsByThresholdUsingASupportMap(THRESHOLD);
 	}
 
 

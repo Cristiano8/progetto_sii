@@ -77,28 +77,6 @@ public class HashtagMap {
 		return listHashtags;
 	}
 
-	/*Prendo tutti gli hashtag che hanno un numero di occorrenze nei tweets che è minimo la metà del numero dei tweets 
-	 * ritornati alla prima ricerca, n dovrebbe essere il numero di tweets ritornati*/
-
-	public List<String> getTopHashtagsByHalfOfTweets(int n) {
-		int half = n/2;
-		List<String> listHashtags = new ArrayList<String>();
-		Iterator<Map.Entry<String, Integer>> entries = this.hashtagMap.entrySet().iterator();
-
-		while (entries.hasNext()) {
-
-			Entry<String, Integer> thisEntry = (Entry<String, Integer>) entries.next();
-			String key = thisEntry.getKey();
-			int value = thisEntry.getValue();
-
-			if (value >= half){
-				listHashtags.add(key);
-			}
-
-		}
-
-		return listHashtags;
-	}
 	
 	/* ritorna la lista degli hashtag che hanno più occorrenze rispetto alla media (calcolata levando
 	 * i valori che hanno un'unica occorrenza, che fanno abbassare di molto la media) */
@@ -181,9 +159,14 @@ public class HashtagMap {
 	}
 	
 	
-	/* TENTATIVO PER FARE IL METODO SOPRA O(N)
-	 *Scorro la mappa e aggiorno una mappa che ha i tre massimi temporanei, alla fine avrà i top hashtag*/ 
+	
+	/*Scorro la mappa e aggiorno un'altra mappa che ha i tre massimi temporanei, alla fine avrà i top hashtag*/ 
 	public List<String> getTopHashtagsByThresholdUsingASupportMap(int threshold) {
+		
+		if (threshold <= 0) {
+			return null; //dovremmo fare un eccezione se ci andrà
+		}
+		
 		
 		// mappa che mantiene il topHashtag temporanei
 		Map<String, Integer> supportMap = new HashMap<>(threshold);

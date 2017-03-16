@@ -66,7 +66,15 @@ public class TweetRetriever {
 	/* seconda query fatta accoppiando gli hashtag che hanno più occorrenze nei tweet
 	 * recuperati dalla prima query */
 	private void extendQuery() {
+		double startTime = System.nanoTime();
+
 		List<String> hashtagsForSecondQuery = this.tp.getTop3Hashtags();
+
+		double endTime = System.nanoTime();
+
+		System.out.println("It took : " + (endTime - startTime)/1000000000 + " seconds");
+		
+		System.out.println(hashtagsForSecondQuery.toString());
 
 		String hashtag1 = hashtagsForSecondQuery.get(0);
 		String hashtag2 = hashtagsForSecondQuery.get(1);
@@ -96,12 +104,12 @@ public class TweetRetriever {
 			te.printStackTrace();
 			System.out.println("Failed to perform second search: " + te.getMessage());
 		}
-		
-//		printTweets(tweetsFromExtendedSearch);
-		
+
+		//		printTweets(tweetsFromExtendedSearch);
+
 		System.out.println("Second search: " + tweetsFromExtendedSearch.size());
 
-		
+
 		// TODO aggiungere tweetsFromExtendedSearch al db (contiene i retweet)
 
 	}
@@ -112,7 +120,7 @@ public class TweetRetriever {
 			if (!s.isRetweet()) 
 				System.out.println(s.getUser().getScreenName() + " - " + s.getText() + "||||");
 		}
-		
+
 	} */
 
 
