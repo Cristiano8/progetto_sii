@@ -4,5 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="/usr/lib/twitter/twitter4j-core/twitter4j-core-4.0.4.jar"/>
+	<classpathentry kind="lib" path="/home/federico/.m2/repository/com/github/ptnplanet/Java-Naive-Bayes-Classifier/1.0.5/Java-Naive-Bayes-Classifier-1.0.5.jar"/>
+	<classpathentry kind="lib" path="/home/federico/.m2/repository/org/mongodb/mongodb-driver/3.4.2/mongodb-driver-3.4.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

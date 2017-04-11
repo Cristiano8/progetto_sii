@@ -6,15 +6,14 @@ import twitter4j.TwitterException;
 public class Main {
 	
 	public static void main(String args[]) throws TwitterException {
-
-		
 		
 		TweetRetriever tr = new TweetRetriever();
 
 //		long start = System.nanoTime();
 
-		tr.getTwitsForHashtag("#trump");
+		tr.getTweetsForHashtag("#trump");
 		
+//		tr.getTweetsForTraining(":) OR #iloveit");
 		
 		
 		//System.out.println(d.size());

@@ -10,7 +10,8 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
-/* Classe che ha la responsabilità di accedere a Twitter e prendere tutti i Tweet realitivi ad un evento */
+/* Classe che ha la responsabilità di accedere a Twitter e 
+ * prendere tutti i Tweet relativi ad un evento */
 
 public class TweetRetriever {
 
@@ -23,8 +24,39 @@ public class TweetRetriever {
 		this.twitter = tc.getTwitter();
 		this.tp = new TweetProcessor();
 	}
+	
+	/* Prende i tweet in base a query e ritorna la lista */
+	public List<Status> getTweetsForTraining(String query) throws TwitterException {
+		List<Status> tweets = new ArrayList<>();
+		
+		try {
 
-	public void getTwitsForHashtag(String query) throws TwitterException {
+			Query q = new Query(query + " lang:it");
+			q.setCount(100);
+			QueryResult qr;
+
+			do {
+				qr = twitter.search(q);
+				List<Status> tweetsInAPage = qr.getTweets();
+				tweets.addAll(tweetsInAPage);
+
+			} while ((q = qr.nextQuery()) != null);
+
+		} catch (TwitterException te) {
+			te.printStackTrace();
+			System.out.println("Failed to perform training search: " + te.getMessage());
+		}
+		
+		for (Status s : tweets) {
+			System.out.println("-------" + s.getText());
+			
+		}
+		
+		System.out.println(tweets.size());
+		return tweets;
+	}
+
+	public void getTweetsForHashtag(String query) throws TwitterException {
 		int cont = 0;
 		List<Status> tweets = new ArrayList<>(); // conterrà tutti i tweet della prima query
 
