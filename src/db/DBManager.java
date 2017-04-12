@@ -11,13 +11,12 @@ import com.mongodb.client.MongoDatabase;
 
 public class DBManager {
 	
-	private static final String CATEGORY_FIELD = "category";
-
-	private static final String TWEET_FIELD = "tweet";
-
-	private static final String COLLECTION_NAME = "tweets";
-
 	private static final String DB_NAME = "progetto_sii";
+	
+	private static final String COLLECTION_NAME = "tweets";
+	
+	private static final String CATEGORY_FIELD = "category";
+	private static final String TWEET_FIELD = "tweet";
 	
 	private MongoClient mc;
 	private MongoDatabase mdb;
@@ -25,6 +24,11 @@ public class DBManager {
 	public DBManager() {
 		this.mc = new MongoClient("localhost");
 		this.mdb = this.mc.getDatabase(DB_NAME);
+	}
+	
+	public DBManager(String dbName) {
+		this.mc = new MongoClient("localhost");
+		this.mdb = this.mc.getDatabase(dbName);
 	}
 	
 	public List<Document> getTweetsForTraining() {
@@ -66,6 +70,10 @@ public class DBManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public MongoDatabase getDb() {
+		return this.mdb;
 	}
 
 }
