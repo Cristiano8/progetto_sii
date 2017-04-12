@@ -6,5 +6,8 @@
 	<classpathentry kind="lib" path="/usr/lib/twitter/twitter4j-core/twitter4j-core-4.0.4.jar"/>
 	<classpathentry kind="lib" path="/home/federico/.m2/repository/com/github/ptnplanet/Java-Naive-Bayes-Classifier/1.0.5/Java-Naive-Bayes-Classifier-1.0.5.jar"/>
 	<classpathentry kind="lib" path="/home/federico/.m2/repository/org/mongodb/mongodb-driver/3.4.2/mongodb-driver-3.4.2.jar"/>
+	<classpathentry kind="lib" path="/home/federico/.m2/repository/org/mongodb/bson/3.4.2/bson-3.4.2.jar"/>
+	<classpathentry kind="lib" path="/home/federico/.m2/repository/org/mongodb/mongodb-driver-core/3.4.2/mongodb-driver-core-3.4.2.jar"/>
+	<classpathentry kind="lib" path="/usr/lib/mongo/mongodb-driver-3.4.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
