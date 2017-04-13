@@ -31,6 +31,8 @@ public class TweetTokenizer {
 		return tokenized;
 	}
 	
+	
+	/*Clean the string, lowering the case, removing the hashtags,usernames,punctuation and URL. Return the string cleaned*/
 	public String cleanTweet(String tweet){
 		
 		//Convert tweet to lower case
@@ -48,16 +50,30 @@ public class TweetTokenizer {
 		//remove URL, they are now without punctuation
 		tweet = tweet.replaceAll("(http[a-zA-Z-0-9]+)", "");
 		
+		
+		//remove the white space at the start and at the end of the string
 		if(tweet.startsWith(" ")){
 			tweet = tweet.substring(1);
 		}
-		
 		if(tweet.endsWith(" ")){
 			tweet = tweet.substring(0, tweet.length()-1);
 		}
 		
-		
 		return tweet;
 	}
+	
+	/*Tokenize the cleaned string, it returns a tokenized string divided in an array*/
+	public String[] tokenizeTweet(String tweet){
+		String [] tokenizedTweet = tweet.split(" ");
+		return tokenizedTweet;
+	}
+	
+//	public void stemmingTweet(String tweet){
+//		Stemmer stemmer = new PorterStemmer();
+//		return;
+//	}
+	
+	
+	
 
 }
