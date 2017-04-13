@@ -139,4 +139,22 @@ public class TweetTokenizerTest {
 		assertTrue(s3.equals(s3C));
 	}
 	
+	@Test
+	public void tokenizeNormalTweet(){
+		
+		String s = "I want to tokenize this string";
+		String[] tokenized = tweetTokenizer.tokenizeTweet(s);
+		for(int i=0; i<tokenized.length; i++){
+			System.out.println(tokenized[i]);
+		}
+		assertEquals(6, tokenized.length);
+		assertEquals("I", tokenized[0]);
+		assertEquals("want", tokenized[1]);
+		assertEquals("to", tokenized[2]);
+		assertEquals("tokenize", tokenized[3]);
+		assertEquals("this", tokenized[4]);
+		assertEquals("string", tokenized[5]);
+	}
+	
+	
 }
