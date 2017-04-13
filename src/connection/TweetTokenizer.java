@@ -36,17 +36,26 @@ public class TweetTokenizer {
 		//Convert tweet to lower case
 		tweet = tweet.toLowerCase();
 		
-		//remove URLs
-		tweet = tweet.replaceAll("(www\\.[^\\s]+)|(https?://[^\\s]+)", "");
+		//remove hashtag
+		tweet = tweet.replace("#", "");
 		
 		//remove usernames
-		tweet = tweet.replaceAll("@[^\\s]", "");
-		
-		//remove hashtag
-		tweet = tweet.replaceAll("#", "");
+		tweet = tweet.replaceAll("@[^\\s]+", "");
 		
 		//remove punctuation
-		tweet = tweet.replaceAll("\\p.{Punct}+", "");
+		tweet = tweet.replaceAll("[^a-zA-Z0-9\\s]+", "");
+		
+		//remove URL, they are now without punctuation
+		tweet = tweet.replaceAll("(http[a-zA-Z-0-9]+)", "");
+		
+		if(tweet.startsWith(" ")){
+			tweet = tweet.substring(1);
+		}
+		
+		if(tweet.endsWith(" ")){
+			tweet = tweet.substring(0, tweet.length()-1);
+		}
+		
 		
 		return tweet;
 	}
