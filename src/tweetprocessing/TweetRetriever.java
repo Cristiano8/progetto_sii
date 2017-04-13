@@ -1,9 +1,10 @@
-package connection;
+package tweetprocessing;
 
 import java.util.ArrayList;
 
 import java.util.List;
 
+import connection.TwitterConnection;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
@@ -47,16 +48,10 @@ public class TweetRetriever {
 			System.out.println("Failed to perform training search: " + te.getMessage());
 		}
 		
-		for (Status s : tweets) {
-			System.out.println("-------" + s.getText());
-			
-		}
-		
-		System.out.println(tweets.size());
 		return tweets;
 	}
 
-	public void getTweetsForHashtag(String query) throws TwitterException {
+	public List<Status> getTweetsForHashtag(String query) throws TwitterException {
 		int cont = 0;
 		List<Status> tweets = new ArrayList<>(); // conterrà tutti i tweet della prima query
 
@@ -86,27 +81,28 @@ public class TweetRetriever {
 			System.out.println("Failed to perform first search: " + te.getMessage());
 		}
 
-		//TODO aggiungere tweets al db (contiene i retweet)
 		System.out.println(cont);
 		System.out.println("First search: " + tweets.size());
 
-		this.extendQuery();
+		tweets.addAll(this.extendQuery());
+		
+		return tweets;
 
 
 	}
 
 	/* seconda query fatta accoppiando gli hashtag che hanno più occorrenze nei tweet
 	 * recuperati dalla prima query */
-	private void extendQuery() {
-		double startTime = System.nanoTime();
+	private List<Status> extendQuery() {
+//		double startTime = System.nanoTime();
 
 		List<String> hashtagsForSecondQuery = this.tp.getTop3Hashtags();
 
-		double endTime = System.nanoTime();
-
-		System.out.println("It took : " + (endTime - startTime)/1000000000 + " seconds");
-		
-		System.out.println(hashtagsForSecondQuery.toString());
+//		double endTime = System.nanoTime();
+//
+//		System.out.println("It took : " + (endTime - startTime)/1000000000 + " seconds");
+//		
+//		System.out.println(hashtagsForSecondQuery.toString());
 
 		String hashtag1 = hashtagsForSecondQuery.get(0);
 		String hashtag2 = hashtagsForSecondQuery.get(1);
@@ -141,8 +137,8 @@ public class TweetRetriever {
 
 		System.out.println("Second search: " + tweetsFromExtendedSearch.size());
 
+		return tweetsFromExtendedSearch;
 
-		// TODO aggiungere tweetsFromExtendedSearch al db (contiene i retweet)
 
 	}
 

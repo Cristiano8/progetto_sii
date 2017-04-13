@@ -1,4 +1,4 @@
-package connection;
+package tweetprocessing;
 
 import java.util.ArrayList;
 import java.util.List;

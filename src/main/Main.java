@@ -1,6 +1,7 @@
-package connection;
+package main;
 
 
+import tweetprocessing.TweetRetriever;
 import twitter4j.TwitterException;
 
 public class Main {

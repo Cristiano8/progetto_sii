@@ -1,23 +1,21 @@
 package classifier;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.bson.Document;
 
-import connection.TweetRetriever;
-import connection.TweetTokenizer;
 import db.DBManager;
-import twitter4j.Status;
 import twitter4j.TwitterException;
-
+import de.daslaboratorium.machinelearning.classifier.Classification;
 import de.daslaboratorium.machinelearning.classifier.Classifier;
 import de.daslaboratorium.machinelearning.classifier.bayes.BayesClassifier;
+import tweetprocessing.TweetManager;
 
-public class ClassifierTraining {
+public class TweetClassifier {
 
-	private TweetRetriever tr;
-	private TweetTokenizer tt;
+	private TweetManager tm;
 	private DBManager dbm;
 
 	private final static String POSITIVE_QUERY = ":) OR #iloveit";
@@ -29,31 +27,27 @@ public class ClassifierTraining {
 	private static final String CATEGORY_FIELD = "category";
 	private static final String TWEET_FIELD = "tweet";
 
-	final Classifier<String, String> bayes = new BayesClassifier<>();
+	public final Classifier<String, String> bayes = new BayesClassifier<>();
 
-	public ClassifierTraining(TweetRetriever tr) {
-		this.tr = tr;
-		this.tt = new TweetTokenizer();
+	public TweetClassifier(TweetManager tm) {
+		this.tm = tm;
 		this.dbm = new DBManager();
 	}
 
 
 	/* Scarica da twitter dei tweet positivi e negativi e li salva sul db. 
-	 * Chiamato solo nella prima esecuzione */
-	public void savePosAndNegTweets() throws TwitterException {
+	 * Chiamato solo alla prima esecuzione */
+	public void trainFromPosAndNegTweets() throws TwitterException {
 
-		List<Status> positiveTweets = this.tr.getTweetsForTraining(POSITIVE_QUERY);
-		List<Status> negativeTweets = this.tr.getTweetsForTraining(NEGATIVE_QUERY);
-
-		List<String> posTokenizedTweets = this.tt.tokenize(positiveTweets);
-		List<String> negTokenizedTweets = this.tt.tokenize(negativeTweets);
+		List<String> positiveTweets = this.tm.getTweetsForTraining(POSITIVE_QUERY);
+		List<String> negativeTweets = this.tm.getTweetsForTraining(NEGATIVE_QUERY);
 
 		// Salva i tweet tokenizzati sul db con la relativa categoria
-		this.dbm.addTweetsForTraining(posTokenizedTweets, POSITIVE_CATEGORY);
-		this.dbm.addTweetsForTraining(negTokenizedTweets, NEGATIVE_CATEGORY);
+		this.dbm.addTweetsForTraining(positiveTweets, POSITIVE_CATEGORY);
+		this.dbm.addTweetsForTraining(negativeTweets, NEGATIVE_CATEGORY);
 
-		this.learn(POSITIVE_CATEGORY, posTokenizedTweets);
-		this.learn(NEGATIVE_CATEGORY, negTokenizedTweets);
+		this.learn(POSITIVE_CATEGORY, positiveTweets);
+		this.learn(NEGATIVE_CATEGORY, negativeTweets);
 
 	}
 
@@ -83,4 +77,18 @@ public class ClassifierTraining {
 		}
 	}
 
+	public void flushDB() {
+		this.dbm.removeAllDocuments();
+	}
+	
+	public List<Classification<String, String>> classifyTweets(List<String> tweets) {
+		List<Classification<String, String>> c = new ArrayList<>();
+		for (String tweet : tweets) {
+			List<String> tweetToClassify = Arrays.asList(tweet.split("\\s"));
+			c.add(bayes.classify(tweetToClassify));
+		}
+		
+		return c;
+	}
+	
 }
