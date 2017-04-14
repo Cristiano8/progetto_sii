@@ -1,5 +1,6 @@
 package classifier;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import org.bson.Document;
 
 import db.DBManager;
+import db.PosAndNegWordReader;
 import twitter4j.TwitterException;
 import de.daslaboratorium.machinelearning.classifier.Classification;
 import de.daslaboratorium.machinelearning.classifier.Classifier;
@@ -17,6 +19,7 @@ public class TweetClassifier {
 
 	private TweetManager tm;
 	private DBManager dbm;
+	private PosAndNegWordReader panr;
 
 	private final static String POSITIVE_QUERY = ":) OR #iloveit";
 	private final static String NEGATIVE_QUERY = ":( OR #ihateit";
@@ -32,6 +35,7 @@ public class TweetClassifier {
 	public TweetClassifier(TweetManager tm) {
 		this.tm = tm;
 		this.dbm = new DBManager();
+		this.panr = new PosAndNegWordReader();
 	}
 
 
@@ -52,9 +56,9 @@ public class TweetClassifier {
 	}
 
 
-	private void learn(String category, List<String> tweets) {
-		for (String tweet : tweets) {
-			bayes.learn(category, Arrays.asList(tweet.split("\\s")));
+	private void learn(String category, List<String> features) {
+		for (String feature : features) {
+			bayes.learn(category, Arrays.asList(feature.split("\\s")));
 		}
 	}
 
@@ -90,5 +94,12 @@ public class TweetClassifier {
 		
 		return c;
 	}
+	
+//	private void learnFromFile() throws IOException {
+//		List<String> posAndNegWords = this.panr.read();
+//		for (String line : posAndNegWords) {
+//			String fields[] = line.split("\\t");
+//		}
+//	}
 	
 }

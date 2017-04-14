@@ -32,8 +32,8 @@ public class TweetTokenizer {
 	}
 	
 	
-	/*Clean the string, lowering the case, removing the hashtags,usernames,punctuation and URL. Return the string cleaned*/
-	public String cleanTweet(String tweet){
+	/*Clean the string, lowering the case, removing the hashtags, usernames, punctuation and URL. Return the string cleaned*/
+	public String cleanTweet(String tweet) {
 		
 		//Convert tweet to lower case
 		tweet = tweet.toLowerCase();
@@ -52,18 +52,18 @@ public class TweetTokenizer {
 		
 		
 		//remove the white space at the start and at the end of the string
-		if(tweet.startsWith(" ")){
+		if(tweet.startsWith(" ")) {
 			tweet = tweet.substring(1);
 		}
-		if(tweet.endsWith(" ")){
-			tweet = tweet.substring(0, tweet.length()-1);
+		if(tweet.endsWith(" ")) {
+			tweet = tweet.substring(0, tweet.length() - 1);
 		}
 		
 		return tweet;
 	}
 	
 	/*Tokenize the cleaned string, it returns a tokenized string divided in an array*/
-	public String[] tokenizeTweet(String tweet){
+	public String[] tokenizeTweet(String tweet) {
 		String [] tokenizedTweet = tweet.split(" ");
 		return tokenizedTweet;
 	}
