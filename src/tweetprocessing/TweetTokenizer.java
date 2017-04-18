@@ -69,10 +69,10 @@ public class TweetTokenizer {
 	}
 	
 //	public void stemmingTweet(String tweet){
-//		Stemmer stemmer = new PorterStemmer();
+//		italianStemmer stemmer = new italianStemmer();
 //		return;
 //	}
-	
+//	
 	
 	
 
