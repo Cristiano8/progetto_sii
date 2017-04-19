@@ -14,26 +14,29 @@ public class TweetTokenizer {
 		
 		//Take only the text of each tweet
 		List<String> textTweets = new ArrayList<>();
-		for(Status tweet : tweets){
+		for(Status tweet : tweets) {
 			textTweets.add(tweet.getText());
 		}
 		
 			
 		//Clean the whole list of tweet
 		List<String> cleaned = new ArrayList<>();	
-		for(String tweet : textTweets){
+		for(String tweet : textTweets) {
 			String cleanedTweet;
 			cleanedTweet = this.cleanTweet(tweet);
 			cleaned.add(cleanedTweet);
 		}
 		
-		List<String> tokenized = new ArrayList<>();
-		return tokenized;
+//		List<String> tokenized = new ArrayList<>();
+		return cleaned;
 	}
 	
 	
 	/*Clean the string, lowering the case, removing the hashtags, usernames, punctuation and URL. Return the string cleaned*/
 	public String cleanTweet(String tweet) {
+		
+		//remove RT
+		tweet = tweet.replace("RT", "");
 		
 		//Convert tweet to lower case
 		tweet = tweet.toLowerCase();
@@ -58,6 +61,9 @@ public class TweetTokenizer {
 		if(tweet.endsWith(" ")) {
 			tweet = tweet.substring(0, tweet.length() - 1);
 		}
+		
+		//remove \n
+		tweet = tweet.replaceAll("\\n", "");
 		
 		return tweet;
 	}

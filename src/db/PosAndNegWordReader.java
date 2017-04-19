@@ -22,8 +22,7 @@ public class PosAndNegWordReader {
 			while (line != null) {
 				line = br.readLine();
 				if (line != null) {
-					String cleaned = line.replaceAll("\\*", "");
-					lines.add(cleaned);
+					lines.add(line);
 				}
 			}
 		} finally {

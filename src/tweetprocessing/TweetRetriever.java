@@ -52,7 +52,7 @@ public class TweetRetriever {
 	}
 
 	public List<Status> getTweetsForHashtag(String query) throws TwitterException {
-		int cont = 0;
+//		int cont = 0;
 		List<Status> tweets = new ArrayList<>(); // conterrà tutti i tweet della prima query
 
 		try {
@@ -69,7 +69,7 @@ public class TweetRetriever {
 				for (Status tweet : tweetsInAPage) {
 					if (!tweet.isRetweet()) { // aggiungo gli hashtag alla mappa solo se non appartengono a retweet
 						tp.addRelatedHashtags(tweet.getText(), query); // aggiungo altri hashtag nel Tweet
-						cont++;
+//						cont++;
 					}
 
 				}
@@ -81,10 +81,10 @@ public class TweetRetriever {
 			System.out.println("Failed to perform first search: " + te.getMessage());
 		}
 
-		System.out.println(cont);
+//		System.out.println(cont);
 		System.out.println("First search: " + tweets.size());
 
-		tweets.addAll(this.extendQuery());
+//		tweets.addAll(this.extendQuery());
 		
 		return tweets;
 
@@ -97,6 +97,8 @@ public class TweetRetriever {
 //		double startTime = System.nanoTime();
 
 		List<String> hashtagsForSecondQuery = this.tp.getTop3Hashtags();
+		
+		
 
 //		double endTime = System.nanoTime();
 //
@@ -107,6 +109,8 @@ public class TweetRetriever {
 		String hashtag1 = hashtagsForSecondQuery.get(0);
 		String hashtag2 = hashtagsForSecondQuery.get(1);
 		String hashtag3 = hashtagsForSecondQuery.get(2);
+		
+		System.out.println(hashtag1 + " " + hashtag2 + " " + hashtag3);
 
 		String query1 = "(" + hashtag1 + " AND " + hashtag2 + ")";
 		String query2 = "(" + hashtag2 + " AND " + hashtag3 + ")";
@@ -138,7 +142,6 @@ public class TweetRetriever {
 		System.out.println("Second search: " + tweetsFromExtendedSearch.size());
 
 		return tweetsFromExtendedSearch;
-
 
 	}
 

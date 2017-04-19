@@ -15,16 +15,17 @@ public class EventSentimentAnalysis {
 		this.tm = new TweetManager();
 		this.tc = new TweetClassifier(tm);
 		// faccio il training del classificatore
-		/* la prima chiamata
-		this.ct.savePosAndNegTweets(); */
+		/* la prima chiamata */
+		this.tc.trainFromPosAndNegTweets(); 
+		this.tc.printClassifier();
 		
 		// dopo che ho già scaricato dei tweet positivi e negativi e messi nel db
-		this.tc.trainFromDB();
+		//this.tc.trainFromDB();
 		
-		/* per svuotare il db
-		this.ct.flushDB(); */
+		/* per svuotare il db */
+//		this.tc.flushDB(); 
 		
-		this.tm.evaluateEventSentiment(query);
+		//this.tm.evaluateEventSentiment(query);
 	}
 
 }

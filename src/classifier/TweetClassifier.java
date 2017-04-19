@@ -21,8 +21,8 @@ public class TweetClassifier {
 	private DBManager dbm;
 	private PosAndNegWordReader panr;
 
-	private final static String POSITIVE_QUERY = ":) OR #iloveit";
-	private final static String NEGATIVE_QUERY = ":( OR #ihateit";
+	private final static String POSITIVE_QUERY = ":)";
+	private final static String NEGATIVE_QUERY = ":(";
 
 	private final static String POSITIVE_CATEGORY = "positive";
 	private final static String NEGATIVE_CATEGORY = "negative";
@@ -60,6 +60,12 @@ public class TweetClassifier {
 		for (String feature : features) {
 			bayes.learn(category, Arrays.asList(feature.split("\\s")));
 		}
+	}
+	
+	public void printClassifier() {
+		System.out.println(bayes.getCategories().toString());
+		System.out.println(bayes.getFeatures().toString());
+		System.out.println(bayes.getFeatures().size());
 	}
 
 	/* Prende la lista dei tweet positivi e negativi salvati sul db 
