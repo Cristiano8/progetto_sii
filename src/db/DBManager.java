@@ -46,20 +46,21 @@ public class DBManager {
 		
 	}
 	
-	public void addTweetsForTraining(List<String> tweets, String category) {
+	// aggiunge al db una lista di features nella categoria specificata
+	public void addTweetsForTraining(List<String> features, String category) {
 		try {
-			MongoCollection<Document> tweetsInDB = mdb.getCollection(COLLECTION_NAME);
+			MongoCollection<Document> featuresInDB = mdb.getCollection(COLLECTION_NAME);
 			
-			for (String tweet : tweets) {
-				Document d = new Document(TWEET_FIELD, tweet).append(CATEGORY_FIELD, category);
-				tweetsInDB.insertOne(d);
+			for (String feature : features) {
+				Document d = new Document(TWEET_FIELD, feature).append(CATEGORY_FIELD, category);
+				featuresInDB.insertOne(d);
 			}
-			
-
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
 	
 	public void removeAllDocuments() {
 		try {

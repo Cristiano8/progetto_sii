@@ -52,7 +52,7 @@ public class TweetRetriever {
 	}
 
 	public List<Status> getTweetsForHashtag(String query) throws TwitterException {
-//		int cont = 0;
+
 		List<Status> tweets = new ArrayList<>(); // conterrà tutti i tweet della prima query
 
 		try {
@@ -69,7 +69,6 @@ public class TweetRetriever {
 				for (Status tweet : tweetsInAPage) {
 					if (!tweet.isRetweet()) { // aggiungo gli hashtag alla mappa solo se non appartengono a retweet
 						tp.addRelatedHashtags(tweet.getText(), query); // aggiungo altri hashtag nel Tweet
-//						cont++;
 					}
 
 				}
@@ -81,10 +80,8 @@ public class TweetRetriever {
 			System.out.println("Failed to perform first search: " + te.getMessage());
 		}
 
-//		System.out.println(cont);
-		System.out.println("First search: " + tweets.size());
 
-//		tweets.addAll(this.extendQuery());
+		tweets.addAll(this.extendQuery());
 		
 		return tweets;
 
@@ -136,10 +133,6 @@ public class TweetRetriever {
 			te.printStackTrace();
 			System.out.println("Failed to perform second search: " + te.getMessage());
 		}
-
-		//		printTweets(tweetsFromExtendedSearch);
-
-		System.out.println("Second search: " + tweetsFromExtendedSearch.size());
 
 		return tweetsFromExtendedSearch;
 

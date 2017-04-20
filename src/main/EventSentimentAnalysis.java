@@ -1,5 +1,7 @@
 package main;
 
+import java.io.IOException;
+
 import classifier.TweetClassifier;
 import tweetprocessing.TweetManager;
 import twitter4j.TwitterException;
@@ -10,22 +12,33 @@ public class EventSentimentAnalysis {
 	private TweetClassifier tc;
 
 	
-	public EventSentimentAnalysis(String query) throws TwitterException {
+	public EventSentimentAnalysis(String query) throws TwitterException, IOException {
 		
 		this.tm = new TweetManager();
-		this.tc = new TweetClassifier(tm);
-		// faccio il training del classificatore
-		/* la prima chiamata */
-		this.tc.trainFromPosAndNegTweets(); 
+		this.tc = new TweetClassifier();
+		
+		tm.setTweetClassifier(tc);
+		tc.setTweetManager(tm);
+		
+		/* training da twitter (prima chiamata) */
+//		this.tc.trainFromTwitter(); 
+//		System.out.println("Trained from Twitter");
+//		this.tc.printClassifier();
+		
+		/* training dal file LIWC (prima chiamata) */
+		this.tc.trainFromLIWC();
+		System.out.println("Trained from LIWC");
 		this.tc.printClassifier();
 		
-		// dopo che ho già scaricato dei tweet positivi e negativi e messi nel db
-		//this.tc.trainFromDB();
+		/* training dal db */
+//		this.tc.trainFromDB();
+//		System.out.println("Trained from db");
 		
 		/* per svuotare il db */
 //		this.tc.flushDB(); 
 		
-		//this.tm.evaluateEventSentiment(query);
+		/* valuta il sentiment realativo alla query */
+		this.tm.evaluateEventSentiment(query);
 	}
 
 }

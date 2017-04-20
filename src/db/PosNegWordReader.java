@@ -6,9 +6,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PosAndNegWordReader {
+public class PosNegWordReader {
 
 	private static final String PATH_TO_FILE = "/home/federico/Documenti/ProgettoSII/pos-and-neg-words";
+	
+	public List<String> getFeaturesByCategory(String category) throws IOException {
+		List<String> features = new ArrayList<>();
+		
+		List<String> liwcFile = this.read();
+		
+		for (String line : liwcFile) {
+			String splitLine[] = line.split("\\s");
+			String word = splitLine[0];
+			if (category.equals(splitLine[1]))
+				features.add(word);
+		}
+		
+		return features;
+	}
 
 	public List<String> read() throws IOException {
 
@@ -16,9 +31,8 @@ public class PosAndNegWordReader {
 
 		BufferedReader br = new BufferedReader(new FileReader(PATH_TO_FILE));
 
+		String line = "";
 		try {
-			String line = br.readLine();
-
 			while (line != null) {
 				line = br.readLine();
 				if (line != null) {

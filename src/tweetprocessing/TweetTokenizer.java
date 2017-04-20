@@ -47,8 +47,8 @@ public class TweetTokenizer {
 		//remove usernames
 		tweet = tweet.replaceAll("@[^\\s]+", "");
 		
-		//remove punctuation
-		tweet = tweet.replaceAll("[^a-zA-Z0-9\\s]+", "");
+		//remove punctuation with a white space
+		tweet = tweet.replaceAll("[^a-zA-Z0-9\\s]+", " ");
 		
 		//remove URL, they are now without punctuation
 		tweet = tweet.replaceAll("(http[a-zA-Z-0-9]+)", "");
