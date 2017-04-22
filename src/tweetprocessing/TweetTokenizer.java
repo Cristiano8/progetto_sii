@@ -7,6 +7,9 @@ import twitter4j.Status;
 
 public class TweetTokenizer {
 	
+	
+	Stemmer stemmer = new Stemmer();
+	
 	/*The input is the list of the tweets retrieved, i need to tokenize them using the method cleanTweet.
 	 * Quindi ogni tweet pulito viene inserito nella lista cleaned per continuare la procedura*/
 	
@@ -60,6 +63,15 @@ public class TweetTokenizer {
 		}
 		if(tweet.endsWith(" ")) {
 			tweet = tweet.substring(0, tweet.length() - 1);
+		}
+		
+		String tweetToBeStemmed = tweet;
+		tweet = "";
+		for(String s: tweetToBeStemmed.split(" ")){
+			s = stemmer.stem(s);
+			if (s != null){
+				tweet += s;
+			}
 		}
 		
 		//remove \n
