@@ -1,6 +1,6 @@
 package tweetprocessing;
 
-//import java.text.Normalizer;
+import java.text.Normalizer;
 
 /*Used to stem a word and to eliminate stopwords*/
 public class Stemmer {
@@ -13,8 +13,8 @@ public class Stemmer {
 
 		//STEP 0.
 		//Delete the accented letter
-		//stemmed = Normalizer.normalize(stemmed, Normalizer.Form.NFD);
-		
+		stemmed = Normalizer.normalize(stemmed, Normalizer.Form.NFD);
+		stemmed = stemmed.replaceAll("[^\\p{ASCII}]", "");
 		
 		
 		//STEP 0.1 

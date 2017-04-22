@@ -74,12 +74,6 @@ public class TweetTokenizer {
 		return tokenizedTweet;
 	}
 	
-//	public void stemmingTweet(String tweet){
-//		italianStemmer stemmer = new italianStemmer();
-//		return;
-//	}
-//	
-	
 	
 
 }

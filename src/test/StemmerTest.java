@@ -288,7 +288,38 @@ public class StemmerTest {
 		String unziatoStemmed = stemmer.stem(unziato);
 		System.out.println(unziatoStemmed);
 		assertTrue(unziatoStemmed.equals("pronunz"));
+	}
+	
+	/*Stop Word List Test*/
+	@Test
+	public void stopWordListTest(){
+		
+		String agli = "agli";
+		String agliStemmed = stemmer.stem(agli);
+		assertNull(agliStemmed);
+		
+		String lui = "lui";
+		String luiStemmed = stemmer.stem(lui);
+		assertNull(luiStemmed);
 
+		String nostro = "nostro";
+		String nostroStemmed = stemmer.stem(nostro);
+		assertNull(nostroStemmed);
+
+		String anche = "anche";
+		String ancheStemmed = stemmer.stem(anche);
+		assertNull(ancheStemmed);
+	}
+	
+	/*Accented word*/
+	@Test
+	public void accentedWordsTest(){
+		
+		String accented = "àòèé";
+		String accentedStemmed = stemmer.stem(accented);
+		System.out.println(accentedStemmed);
+		assertTrue(accentedStemmed.equals("aoe"));
+		
 	}
 
 }
