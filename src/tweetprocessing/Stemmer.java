@@ -4,7 +4,7 @@ import java.text.Normalizer;
 
 /*Used to stem a word and to eliminate stopwords*/
 public class Stemmer {
-	
+
 	StopWord sW = new StopWord();
 
 	/*Veramente rozzo*/
@@ -15,16 +15,16 @@ public class Stemmer {
 		//Delete the accented letter
 		stemmed = Normalizer.normalize(stemmed, Normalizer.Form.NFD);
 		stemmed = stemmed.replaceAll("[^\\p{ASCII}]", "");
-		
-		
+
+
 		//STEP 0.1 
 		//Eliminiate the stopwords
 		//stopWordList.add(sW.stopWordArray);
-		if(sW.getStopWordList().contains(s)){
+		if(sW.getStopWordList().contains(s) || s.length() <= 1) {
 			return stemmed = null;
 		}
-		
-		
+
+
 		String suffixed = "";
 
 		//Search for RV 
@@ -54,8 +54,10 @@ public class Stemmer {
 				}
 			}
 		} else {
-			sPreV = stemmed.substring(0, 3);
-			sV = stemmed.substring(3, stemmed.length());
+			if (stemmed.length() >= 3) {
+				sPreV = stemmed.substring(0, 3);
+				sV = stemmed.substring(3, stemmed.length());
+			}
 		}
 
 		//STEP 1.
@@ -79,7 +81,7 @@ public class Stemmer {
 			}
 
 			//Length of the suffixes: 3.
-			if(sV.endsWith("gli")){
+			if(sV.endsWith("gli")) {
 				suffixed = sV.substring(0, sV.length()-3);
 			}
 
@@ -87,7 +89,7 @@ public class Stemmer {
 			//Length of the suffixes: 2.
 			if(sV.endsWith("ci")  || sV.endsWith("la") || sV.endsWith("le")
 					|| sV.endsWith("li") || sV.endsWith("lo") || sV.endsWith("mi") || sV.endsWith("ne")
-					|| sV.endsWith("si") || sV.endsWith("ti") || sV.endsWith("vi")){
+					|| sV.endsWith("si") || sV.endsWith("ti") || sV.endsWith("vi")) {
 
 				suffixed = sV.substring(0, sV.length()-2);		
 			}
@@ -98,11 +100,11 @@ public class Stemmer {
 			} else if(suffixed.endsWith("ar") || suffixed.endsWith("er") || suffixed.endsWith("ir")){
 				sV = suffixed + "e";
 			} else {
-				
+
 			}
 		}
-		
-		
+
+
 		//STEP 2. Standard suffix removal.
 		//Delete suffixes if they are in R1(region after the first non-vowel following a vowel)
 		//Search for R1
@@ -115,7 +117,7 @@ public class Stemmer {
 				for(int j = i+1; j < stemmed.length() && !r1; j++){
 					if(stemmed.charAt(j) != 'a' && stemmed.charAt(j) != 'e' && stemmed.charAt(j) != 'i' 
 							&& stemmed.charAt(j) != 'o' && stemmed.charAt(j) !=  'u'){
-						
+
 						sPreR1 = stemmed.substring(0, j+1);
 						sR1 = stemmed.substring(j+1, stemmed.length());
 						r1 = true;
@@ -144,10 +146,10 @@ public class Stemmer {
 		}
 
 		//If i found r1 the search for the suffixes to delete or to replace
-		
+
 		boolean step2Applied = false;
-		
-		if(r1){
+
+		if(r1) {
 
 			//Delete 'amente' if preceded by 'abil' 'ic' 'iv' 'os'
 			if(sR1.endsWith("amente")){
@@ -157,24 +159,24 @@ public class Stemmer {
 			if(step2Applied){
 				stemmed = sPreR1 + sR1;
 			}
-			
-			
+
+
 		}
 
 
 		//If i found r2 then search for the suffixes to delete or to replace
-		if(r2){
-			
-			
+		if(r2) {
+
+
 			//Suffixes to delete
 			//Length of the suffixes: 6.
-			if(sR2.endsWith("atrice") || sR2.endsWith("atrici") ){
+			if(sR2.endsWith("atrice") || sR2.endsWith("atrici") ) {
 				sR2 = sR2.substring(0, sR2.length()-6);
 				step2Applied = true;
 			}
 
 			//Length of the suffixes: 5.
-			if(sR2.endsWith("abile") || sR2.endsWith("abili") || sR2.endsWith("ibili") || sR2.endsWith("mente")){
+			if(sR2.endsWith("abile") || sR2.endsWith("abili") || sR2.endsWith("ibili") || sR2.endsWith("mente")) {
 				sR2 = sR2.substring(0, sR2.length()-5);
 				step2Applied = true;
 			}
@@ -182,7 +184,7 @@ public class Stemmer {
 			//Length of the suffixes: 4.
 			if(sR2.endsWith("anza") || sR2.endsWith("anze") || sR2.endsWith("iche") || sR2.endsWith("ichi") || sR2.endsWith("ismo") 
 					|| sR2.endsWith("ismi") || sR2.endsWith("ista") || sR2.endsWith("iste") || sR2.endsWith("isti")
-					|| sR2.endsWith("ante") || sR2.endsWith("anti")){
+					|| sR2.endsWith("ante") || sR2.endsWith("anti")) {
 				sR2 = sR2.substring(0, sR2.length()-4);
 				step2Applied = true;
 			}
@@ -272,22 +274,22 @@ public class Stemmer {
 					step2Applied = true;
 				}
 			}
-			
-			
+
+
 			if(step2Applied){
 				stemmed = sPreR1 + sPreR2 + sR2;
 			}
 		}
-		
-		
-		
+
+
+
 		//STEP 3. Only if step2 hasn't removed anything.
 		//Remove suffixes from rV.
-		
+
 		boolean step3Applied = false;
-		
+
 		if(rV && !step2Applied){
-			
+
 			//Length of the suffixes: 6:
 			if(sV.endsWith("assero") || sV.endsWith("assimo") || sV.endsWith("eranno") || sV.endsWith("erebbe")
 					|| sV.endsWith("eremmo") || sV.endsWith("ereste") || sV.endsWith("eresti") || sV.endsWith("essero")
@@ -297,7 +299,7 @@ public class Stemmer {
 				sV = sV.substring(0, sV.length()-6);
 				step3Applied = true;
 			}
-			
+
 			//Length of the suffixes: 5.
 			if(sV.endsWith("assimo") || sV.endsWith("arono") || sV.endsWith("avano") || sV.endsWith("avate")
 					|| sV.endsWith("eremo") || sV.endsWith("erete") || sV.endsWith("evamo") || sV.endsWith("evano")
@@ -335,34 +337,34 @@ public class Stemmer {
 				sV = sV.substring(0, sV.length()-2);	
 				step3Applied = true;
 			}
-			
+
 			if(step3Applied){
 				stemmed = sPreV + sV;
 			}
-			
+
 		}
-		
-		
-		
+
+
+
 		//STEP 4a.
 		//Delete a e i o. Delete i preceding those letters.
 		if(stemmed.endsWith("a") || stemmed.endsWith("e") || stemmed.endsWith("i") || stemmed.endsWith("o")){
 			stemmed = stemmed.substring(0, stemmed.length()-1);
-			
+
 			if(stemmed.endsWith("i")){
 				stemmed = stemmed.substring(0, stemmed.length()-1);
 			}
-			
+
 		}
-		
-		
-		
+
+
+
 		//STEP4b.
 		//Replace ch (gh) with c (g).
 		if(stemmed.endsWith("ch")){
 			stemmed = stemmed.substring(0, stemmed.length()-1);
 		}
-		
+
 		if(stemmed.endsWith("gh")){
 			stemmed = stemmed.substring(0, stemmed.length()-1);
 		}

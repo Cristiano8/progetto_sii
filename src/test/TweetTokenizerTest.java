@@ -45,7 +45,7 @@ public class TweetTokenizerTest {
 		assertTrue(s2.equals(s2C));
 		
 		String s3 = "Tweet @user Per TestAre il METODO";
-		String s3C = "tweet  per testare il metodo";
+		String s3C = "tweet per testare il metodo";
 		s3 = tweetTokenizer.cleanTweet(s3);
 		System.out.println("s3: " + s3);
 		System.out.println("s3C: " + s3C);
@@ -79,7 +79,7 @@ public class TweetTokenizerTest {
 	@Test
 	public void cleanTweetPunctuation(){
 		
-		String s = "Tweet Per TestAre, il METODO .";
+		String s = "Tweet Per TestAre, il METODO.";
 		String sC = "tweet per testare il metodo";
 		s = tweetTokenizer.cleanTweet(s);
 		System.out.println("s: " + s + " sC: " + sC);
@@ -119,7 +119,7 @@ public class TweetTokenizerTest {
 		System.out.println("s: " + s + " sC: " + sC);
 		assertTrue(s.equals(sC));
 		
-		String s1 = "Tweet per testarehttp://prova.com il metodo";
+		String s1 = "Tweet per testare http://prova.com il metodo";
 		String s1C = "tweet per testare il metodo";
 		s1 = tweetTokenizer.cleanTweet(s1);
 		System.out.println("s1: " + s1 + " s1C: " + s1C);
@@ -156,5 +156,14 @@ public class TweetTokenizerTest {
 		assertEquals("string", tokenized[5]);
 	}
 	
+	@Test
+	public void tokenizeNumber() {
+		String s = "I like 69 and4hf";
+		
+		String cleaned = "i like andhf";
+		
+		assertEquals(tweetTokenizer.cleanTweet(s), cleaned);
+		
+	}
 	
 }
