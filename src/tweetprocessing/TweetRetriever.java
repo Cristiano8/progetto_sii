@@ -25,29 +25,32 @@ public class TweetRetriever {
 		this.twitter = tc.getTwitter();
 		this.tp = new TweetProcessor();
 	}
-	
+
 	/* Prende i tweet in base a query e ritorna la lista */
 	public List<Status> getTweetsForTraining(String query) throws TwitterException {
 		List<Status> tweets = new ArrayList<>();
-		
+
 		try {
 
 			Query q = new Query(query + " lang:it");
 			q.setCount(100);
 			QueryResult qr;
 
-			do {
-				qr = twitter.search(q);
-				List<Status> tweetsInAPage = qr.getTweets();
-				tweets.addAll(tweetsInAPage);
 
-			} while ((q = qr.nextQuery()) != null);
+			qr = twitter.search(q);
+			List<Status> tweetsInAPage = qr.getTweets();
+			tweets.addAll(tweetsInAPage);
+
+			qr = twitter.search(q);
+			tweetsInAPage = qr.getTweets();
+			tweets.addAll(tweetsInAPage);
+			
 
 		} catch (TwitterException te) {
 			te.printStackTrace();
 			System.out.println("Failed to perform training search: " + te.getMessage());
 		}
-		
+
 		return tweets;
 	}
 
@@ -82,7 +85,7 @@ public class TweetRetriever {
 
 
 		tweets.addAll(this.extendQuery());
-		
+
 		return tweets;
 
 
@@ -91,22 +94,22 @@ public class TweetRetriever {
 	/* seconda query fatta accoppiando gli hashtag che hanno più occorrenze nei tweet
 	 * recuperati dalla prima query */
 	private List<Status> extendQuery() {
-//		double startTime = System.nanoTime();
+		//		double startTime = System.nanoTime();
 
 		List<String> hashtagsForSecondQuery = this.tp.getTop3Hashtags();
-		
-		
 
-//		double endTime = System.nanoTime();
-//
-//		System.out.println("It took : " + (endTime - startTime)/1000000000 + " seconds");
-//		
-//		System.out.println(hashtagsForSecondQuery.toString());
+
+
+		//		double endTime = System.nanoTime();
+		//
+		//		System.out.println("It took : " + (endTime - startTime)/1000000000 + " seconds");
+		//		
+		//		System.out.println(hashtagsForSecondQuery.toString());
 
 		String hashtag1 = hashtagsForSecondQuery.get(0);
 		String hashtag2 = hashtagsForSecondQuery.get(1);
 		String hashtag3 = hashtagsForSecondQuery.get(2);
-		
+
 		System.out.println(hashtag1 + " " + hashtag2 + " " + hashtag3);
 
 		String query1 = "(" + hashtag1 + " AND " + hashtag2 + ")";

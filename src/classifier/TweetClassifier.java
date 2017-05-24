@@ -65,11 +65,17 @@ public class TweetClassifier {
 	public void trainFromTwitter() throws TwitterException {
 		// prende le feature da Twitter
 		List<String> positiveTweets = this.tm.getTweetsForTraining(POSITIVE_QUERY);
+		System.out.println("positive taken " + positiveTweets.size());
 		List<String> negativeTweets = this.tm.getTweetsForTraining(NEGATIVE_QUERY);
+		System.out.println("negative taken " + negativeTweets.size());
+		
 
 		// Salva i tweet tokenizzati sul db con la relativa categoria
 		this.dbm.addTweetsForTraining(positiveTweets, POSITIVE_CATEGORY);
 		this.dbm.addTweetsForTraining(negativeTweets, NEGATIVE_CATEGORY);
+		
+		System.out.println("DONE 2");
+
 
 		// addestra il classificatore con la lista dei tweets
 		this.learn(POSITIVE_CATEGORY, positiveTweets);

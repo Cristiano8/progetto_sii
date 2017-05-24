@@ -1,5 +1,6 @@
 package tweetprocessing;
 
+//import java.util.ArrayList;
 import java.util.List;
 
 import classifier.TweetClassifier;
@@ -28,14 +29,14 @@ public class TweetManager {
 		List<Status> tweets = this.tr.getTweetsForHashtag(query);
 		
 		// Tokenizza i tweet 
-		List<String> tokenizedTweets = this.tt.tokenize(tweets);
+		List<String> tokenizedTweets = this.tt.tokenize(tweets);	
 
 		// Classifica i tweet tokenizzati
 		List<Classification<String, String>> c = this.tc.classifyTweets(tokenizedTweets);
 
 //		int i = 0;
-//
-//		// stampa la categoria per ogni tweet
+
+		// stampa la categoria per ogni tweet
 //		if (tweets.size() == c.size()) {
 //			while (i < tweets.size() && i < c.size()) {
 //				System.out.println(tweets.get(i).getText() + " : " + c.get(i).getCategory());

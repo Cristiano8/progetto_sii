@@ -5,9 +5,8 @@ import java.util.List;
 import de.daslaboratorium.machinelearning.classifier.Classification;
 
 public class Output {
-
-	public Output(List<Classification<String, String>> classification) {
-		
+	
+	public void analize(List<Classification<String, String>> classification) {
 		int pos = 0;
 		int neg = 0;
 		
@@ -22,7 +21,6 @@ public class Output {
 		
 		System.out.println("Percentage of positive tweets: " + (pos/total) * 100 + "%");
 		System.out.println("Percentage of negative tweets: " + (neg/total) * 100 + "%");
-
 	}
 
 }

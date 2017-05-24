@@ -10,7 +10,7 @@ public class Main {
 	public static void main(String args[]) throws TwitterException, IOException {
 		
 		@SuppressWarnings("unused")
-		EventSentimentAnalysis esa = new EventSentimentAnalysis("#gramsci");
+		EventSentimentAnalysis esa = new EventSentimentAnalysis("#cacca");
 		
 	}
 

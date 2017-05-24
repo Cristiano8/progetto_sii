@@ -16,18 +16,17 @@ public class TweetTokenizer {
 	public List<String> tokenize(List<Status> tweets) {
 
 		//Take only the text of each tweet
-		List<String> textTweets = new ArrayList<>();
+		List<String> textTweets = new ArrayList<>(); // list of tweet text
 		for(Status tweet : tweets) {
 			textTweets.add(tweet.getText());
 		}
-
 
 		//Clean the whole list of tweet
 		List<String> cleaned = new ArrayList<>();	
 		for(String tweet : textTweets) {
 			String cleanedTweet = this.cleanTweet(tweet);
-			String stemmedTweet = this.stem(cleanedTweet);
-			cleaned.add(stemmedTweet);
+//			String stemmedTweet = this.stem(cleanedTweet);
+			cleaned.add(cleanedTweet);
 		}
 
 		//		List<String> tokenized = new ArrayList<>();
@@ -82,11 +81,14 @@ public class TweetTokenizer {
 		for(String s: tweetToBeStemmed.split(" ")){
 			s = stemmer.stem(s);
 			if (s != null){
-				tweet += s;
+				tweet = tweet + " " + s ;
 			}
 		}
 		
-		return tweet;
+		if (tweet.startsWith(" "))
+			return tweet.substring(1);
+		else
+			return tweet;
 	}
 
 	/*Tokenize the cleaned string, it returns a tokenized string divided in an array*/

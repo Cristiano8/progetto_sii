@@ -25,18 +25,18 @@ public class EventSentimentAnalysis {
 		tc.setTweetManager(tm);
 		
 		/* training da twitter (prima chiamata) */
-//		this.tc.trainFromTwitter(); 
-//		System.out.println("Trained from Twitter");
-//		this.tc.printClassifier();
-		
+		this.tc.trainFromTwitter(); 
+		System.out.println("Trained from Twitter");
+		this.tc.printClassifier();
+//		
 		/* training dal file LIWC (prima chiamata) */
 //		this.tc.trainFromLIWC();
 //		System.out.println("Trained from LIWC");
 //		this.tc.printClassifier();
 		
 		/* training dal db */
-		this.tc.trainFromDB();
-		System.out.println("Trained from db");
+//		this.tc.trainFromDB();
+//		System.out.println("Trained from db");
 		
 		/* per svuotare il db */
 //		this.tc.flushDB(); 
@@ -44,7 +44,8 @@ public class EventSentimentAnalysis {
 		/* valuta il sentiment realativo alla query */
 		List<Classification<String, String>> classification = this.tm.evaluateEventSentiment(query);
 		
-		this.output = new Output(classification);
+		this.output = new Output();
+		this.output.analize(classification);
 	}
 
 }
