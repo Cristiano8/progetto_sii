@@ -2,20 +2,20 @@ package output;
 
 import java.util.List;
 
-import de.daslaboratorium.machinelearning.classifier.Classification;
+import classifier.PredictionResult;
 
 public class Output {
 	
-	public void analize(List<Classification<String, String>> classification) {
+	public void analize(List<PredictionResult> classification) {
 		int pos = 0;
 		int neg = 0;
 		
 		int total = classification.size();
 		
-		for (Classification<String, String> c : classification) {
-			if (c.getCategory().equals("positive"))
+		for (PredictionResult c : classification) {
+			if (c.getClassPredicted().equals("positive"))
 				pos++;
-			if (c.getCategory().equals("negative"))
+			else
 				neg++;
 		}
 		

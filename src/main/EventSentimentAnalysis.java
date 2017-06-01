@@ -1,50 +1,52 @@
 package main;
 
-import java.io.IOException;
 import java.util.List;
 
+import classifier.PredictionResult;
 import classifier.TweetClassifier;
-import de.daslaboratorium.machinelearning.classifier.Classification;
+import connection.TweetRetriever;
 import output.Output;
-import tweetprocessing.TweetManager;
-import twitter4j.TwitterException;
+import trainer.TweetTrainer;
 
 public class EventSentimentAnalysis {
 	
-	private TweetManager tm;
+	private TweetTrainer tt;
+	private TweetRetriever tr;
 	private TweetClassifier tc;
 	private Output output;
 
 	
-	public EventSentimentAnalysis(String query) throws TwitterException, IOException {
+	public EventSentimentAnalysis(String query) throws Exception {
 		
-		this.tm = new TweetManager();
+		this.tt = new TweetTrainer();
+		this.tr = TweetRetriever.getInstance();
 		this.tc = new TweetClassifier();
+		this.output = new Output();
+
 		
-		tm.setTweetClassifier(tc);
-		tc.setTweetManager(tm);
-		
-		/* training da twitter (prima chiamata) */
-		this.tc.trainFromTwitter(); 
+			
+		/* training da twitter se il db è vuoto e se il file ARFF non c'è */
+		this.tt.trainFromTwitter(); 
 		System.out.println("Trained from Twitter");
-		this.tc.printClassifier();
-//		
+		
 		/* training dal file LIWC (prima chiamata) */
 //		this.tc.trainFromLIWC();
 //		System.out.println("Trained from LIWC");
 //		this.tc.printClassifier();
 		
-		/* training dal db */
-//		this.tc.trainFromDB();
+		/* training dal db se il file ARFF non c'è */
+//		this.tt.trainFromDB();
 //		System.out.println("Trained from db");
 		
 		/* per svuotare il db */
 //		this.tc.flushDB(); 
 		
-		/* valuta il sentiment realativo alla query */
-		List<Classification<String, String>> classification = this.tm.evaluateEventSentiment(query);
+		/* Prende i tweet da classificare */
+		List<String> tweetRetrieved = this.tr.getTweetsForHashtag(query);
 		
-		this.output = new Output();
+		/* valuta il sentiment realativo alla query */
+		List<PredictionResult> classification = this.tc.classifyTweets(tweetRetrieved);
+		
 		this.output.analize(classification);
 	}
 

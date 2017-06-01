@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import tweetprocessing.TweetTokenizer;
+import tweetprocessing.TweetCleaner;
 import twitter4j.ExtendedMediaEntity;
 import twitter4j.GeoLocation;
 import twitter4j.HashtagEntity;
@@ -25,11 +25,11 @@ import twitter4j.UserMentionEntity;
 
 public class TweetTokenizerTest {
 	
-	private TweetTokenizer tweetTokenizer;
+	private TweetCleaner tweetTokenizer;
 	
 	@Before
 	public void setUp(){
-		tweetTokenizer = new TweetTokenizer();
+		tweetTokenizer = new TweetCleaner();
 	}
 
 	@Test
@@ -155,22 +155,6 @@ public class TweetTokenizerTest {
 		assertTrue(s3.equals(s3C));
 	}
 	
-	@Test
-	public void tokenizeNormalTweet(){
-		
-		String s = "I want to tokenize this string";
-		String[] tokenized = tweetTokenizer.tokenizeTweet(s);
-		for(int i=0; i<tokenized.length; i++){
-			System.out.println(tokenized[i]);
-		}
-		assertEquals(6, tokenized.length);
-		assertEquals("I", tokenized[0]);
-		assertEquals("want", tokenized[1]);
-		assertEquals("to", tokenized[2]);
-		assertEquals("tokenize", tokenized[3]);
-		assertEquals("this", tokenized[4]);
-		assertEquals("string", tokenized[5]);
-	}
 	
 	@Test
 	public void tokenizeNumber() {
@@ -403,7 +387,7 @@ public class TweetTokenizerTest {
 			}
 		});
 //		System.out.println(tweetTokenizer.tokenize(s).toString());
-		assertEquals("[vogl tokenizz string]", tweetTokenizer.tokenize(s).toString());
+		assertEquals("[vogl tokenizz string]", tweetTokenizer.clean(s).toString());
 	}
 	
 }

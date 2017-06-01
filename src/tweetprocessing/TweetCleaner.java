@@ -5,7 +5,7 @@ import java.util.List;
 
 import twitter4j.Status;
 
-public class TweetTokenizer {
+public class TweetCleaner {
 
 
 	Stemmer stemmer = new Stemmer();
@@ -13,7 +13,7 @@ public class TweetTokenizer {
 	/*The input is the list of the tweets retrieved, i need to tokenize them using the method cleanTweet.
 	 * Quindi ogni tweet pulito viene inserito nella lista cleaned per continuare la procedura*/
 
-	public List<String> tokenize(List<Status> tweets) {
+	public List<String> clean(List<Status> tweets) {
 
 		//Take only the text of each tweet
 		List<String> textTweets = new ArrayList<>(); // list of tweet text
@@ -29,7 +29,6 @@ public class TweetTokenizer {
 			cleaned.add(cleanedTweet);
 		}
 
-		//		List<String> tokenized = new ArrayList<>();
 		return cleaned;
 	}
 
@@ -57,6 +56,8 @@ public class TweetTokenizer {
 
 		//remove numbers
 		tweet = tweet.replaceAll("[0-9]+", "");
+		
+		tweet = tweet.replaceAll("'", " ");
 
 		//remove the white space at the start and at the end of the string
 		if(tweet.startsWith(" ")) {
@@ -74,28 +75,23 @@ public class TweetTokenizer {
 		return tweet;
 	}
 
-	public String stem(String tweet) {
-		// stemming
-		String tweetToBeStemmed = tweet;
-		tweet = "";
-		for(String s: tweetToBeStemmed.split(" ")){
-			s = stemmer.stem(s);
-			if (s != null){
-				tweet = tweet + " " + s ;
-			}
-		}
-		
-		if (tweet.startsWith(" "))
-			return tweet.substring(1);
-		else
-			return tweet;
-	}
+//	public String stem(String tweet) {
+//		// stemming
+//		String tweetToBeStemmed = tweet;
+//		tweet = "";
+//		for(String s: tweetToBeStemmed.split(" ")){
+//			s = stemmer.stem(s);
+//			if (s != null){
+//				tweet = tweet + " " + s ;
+//			}
+//		}
+//		
+//		if (tweet.startsWith(" "))
+//			return tweet.substring(1);
+//		else
+//			return tweet;
+//	}
 
-	/*Tokenize the cleaned string, it returns a tokenized string divided in an array*/
-	public String[] tokenizeTweet(String tweet) {
-		String [] tokenizedTweet = tweet.split(" ");
-		return tokenizedTweet;
-	}
 
 
 

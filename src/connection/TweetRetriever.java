@@ -1,10 +1,11 @@
-package tweetprocessing;
+package connection;
 
 import java.util.ArrayList;
 
 import java.util.List;
 
-import connection.TwitterConnection;
+import tweetprocessing.TweetCleaner;
+import tweetprocessing.TweetProcessor;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
@@ -16,45 +17,58 @@ import twitter4j.TwitterException;
 
 public class TweetRetriever {
 
-	private Twitter twitter;	
+	private static final int QUERY_LIMIT = 10;
+	
+	private static TweetRetriever instance;
+	
 	private TwitterConnection tc;
+	private Twitter twitter;	
+	private TweetCleaner tcl;
 	private TweetProcessor tp;
 
-	public TweetRetriever() {
+	private TweetRetriever() {
 		this.tc = new TwitterConnection();
 		this.twitter = tc.getTwitter();
 		this.tp = new TweetProcessor();
+		this.tcl = new TweetCleaner();
+	}
+	
+	public static TweetRetriever getInstance() {
+		if (instance == null) {
+			instance = new TweetRetriever();
+		}
+		return instance;
 	}
 
-	/* Prende i tweet in base a query e ritorna la lista */
-	public List<Status> getTweetsForTraining(String query) throws TwitterException {
+	/* Prende i tweet in base a query per il training e ritorna la lista di tweet puliti */
+	public List<String> getTweetsForTraining(String query) throws TwitterException {
 		List<Status> tweets = new ArrayList<>();
 
 		try {
 
-			Query q = new Query(query + " lang:it");
+			Query q = new Query(query + " lang:it -filter:retweets");
 			q.setCount(100);
 			QueryResult qr;
-
-
-			qr = twitter.search(q);
-			List<Status> tweetsInAPage = qr.getTweets();
-			tweets.addAll(tweetsInAPage);
-
-			qr = twitter.search(q);
-			tweetsInAPage = qr.getTweets();
-			tweets.addAll(tweetsInAPage);
 			
+			int cont = 0;
 
+			do {
+				qr = twitter.search(q);
+				List<Status> tweetsInAPage = qr.getTweets();
+				tweets.addAll(tweetsInAPage);
+				cont++;
+			} while (cont < QUERY_LIMIT);
+
+			
 		} catch (TwitterException te) {
 			te.printStackTrace();
 			System.out.println("Failed to perform training search: " + te.getMessage());
 		}
 
-		return tweets;
+		return this.tcl.clean(tweets);
 	}
 
-	public List<Status> getTweetsForHashtag(String query) throws TwitterException {
+	public List<String> getTweetsForHashtag(String query) throws TwitterException {
 
 		List<Status> tweets = new ArrayList<>(); // conterrà tutti i tweet della prima query
 
@@ -83,28 +97,18 @@ public class TweetRetriever {
 			System.out.println("Failed to perform first search: " + te.getMessage());
 		}
 
-
 		tweets.addAll(this.extendQuery());
 
-		return tweets;
+		return this.tcl.clean(tweets);
 
 
 	}
 
 	/* seconda query fatta accoppiando gli hashtag che hanno più occorrenze nei tweet
 	 * recuperati dalla prima query */
-	private List<Status> extendQuery() {
-		//		double startTime = System.nanoTime();
+	private List<Status> extendQuery() throws TwitterException {
 
 		List<String> hashtagsForSecondQuery = this.tp.getTop3Hashtags();
-
-
-
-		//		double endTime = System.nanoTime();
-		//
-		//		System.out.println("It took : " + (endTime - startTime)/1000000000 + " seconds");
-		//		
-		//		System.out.println(hashtagsForSecondQuery.toString());
 
 		String hashtag1 = hashtagsForSecondQuery.get(0);
 		String hashtag2 = hashtagsForSecondQuery.get(1);
@@ -115,6 +119,7 @@ public class TweetRetriever {
 		String query1 = "(" + hashtag1 + " AND " + hashtag2 + ")";
 		String query2 = "(" + hashtag2 + " AND " + hashtag3 + ")";
 		String query3 = "(" + hashtag3 + " AND " + hashtag1 + ")";
+		
 
 		List<Status> tweetsFromExtendedSearch = new ArrayList<>();
 
@@ -140,15 +145,6 @@ public class TweetRetriever {
 		return tweetsFromExtendedSearch;
 
 	}
-
-	/*
-	private void printTweets(List<Status> tweetsFromExtendedSearch) {
-		for (Status s : tweetsFromExtendedSearch) {
-			if (!s.isRetweet()) 
-				System.out.println(s.getUser().getScreenName() + " - " + s.getText() + "||||");
-		}
-
-	} */
 
 
 }

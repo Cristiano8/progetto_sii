@@ -76,5 +76,9 @@ public class DBManager {
 	public MongoDatabase getDb() {
 		return this.mdb;
 	}
+	
+//	public boolean isEmpty() {
+//		return mdb.getCollection(COLLECTION_NAME).
+//	}
 
 }

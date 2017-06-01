@@ -1,16 +1,11 @@
 package main;
 
-
-import java.io.IOException;
-
-import twitter4j.TwitterException;
-
 public class Main {
 	
-	public static void main(String args[]) throws TwitterException, IOException {
+	public static void main(String args[]) throws Exception {
 		
 		@SuppressWarnings("unused")
-		EventSentimentAnalysis esa = new EventSentimentAnalysis("#cacca");
+		EventSentimentAnalysis esa = new EventSentimentAnalysis("#renzi");
 		
 	}
 
