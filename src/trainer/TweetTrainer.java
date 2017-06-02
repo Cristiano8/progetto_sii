@@ -14,10 +14,10 @@ import twitter4j.TwitterException;
 public class TweetTrainer {
 
 //	private TweetManager tm;
-	private DBManager dbm;
-	private PosNegWordReader pnwr;
-	private CreateTrainingSet ct;
-	private TweetRetriever tr;
+	private DBManager dbManager;
+	private PosNegWordReader posNegWordReader;
+	private CreateTrainingSet trainingSetCreator;
+	private TweetRetriever tweetRetriever;
 
 
 	private final static String POSITIVE_QUERY = ":)";
@@ -31,10 +31,10 @@ public class TweetTrainer {
 
 	
 	public TweetTrainer() {
-		this.dbm = new DBManager();
-		this.pnwr = new PosNegWordReader();
-		this.ct = new CreateTrainingSet();
-		this.tr = TweetRetriever.getInstance();
+		this.dbManager = new DBManager();
+		this.posNegWordReader = new PosNegWordReader();
+		this.trainingSetCreator = new CreateTrainingSet();
+		this.tweetRetriever = TweetRetriever.getInstance();
 		
 	}
 
@@ -46,29 +46,29 @@ public class TweetTrainer {
 	
 	public void trainFromLIWC() throws IOException {
 		// prende le feature dal file LIWC
-		List<String> positiveFeatures = this.pnwr.getFeaturesByCategory(POSITIVE_CATEGORY);
-		List<String> negativeFeatures = this.pnwr.getFeaturesByCategory(NEGATIVE_CATEGORY);
+		List<String> positiveFeatures = this.posNegWordReader.getFeaturesByCategory(POSITIVE_CATEGORY);
+		List<String> negativeFeatures = this.posNegWordReader.getFeaturesByCategory(NEGATIVE_CATEGORY);
 		
 		// salva nel db le parole prese dal file LIWC
-		this.dbm.addTweetsForTraining(positiveFeatures, POSITIVE_CATEGORY);
-		this.dbm.addTweetsForTraining(negativeFeatures, NEGATIVE_CATEGORY);
+		this.dbManager.addTweetsForTraining(positiveFeatures, POSITIVE_CATEGORY);
+		this.dbManager.addTweetsForTraining(negativeFeatures, NEGATIVE_CATEGORY);
 		
 	}
 
 	/* Scarica da twitter dei tweet positivi e negativi e li salva sul db */
 	public void trainFromTwitter() throws TwitterException, IOException {
 		// prende le feature da Twitter
-		List<String> positiveTweets = this.tr.getTweetsForTraining(POSITIVE_QUERY);
+		List<String> positiveTweets = this.tweetRetriever.getTweetsForTraining(POSITIVE_QUERY);
 		System.out.println("positive taken " + positiveTweets.size());
-		List<String> negativeTweets = this.tr.getTweetsForTraining(NEGATIVE_QUERY);
+		List<String> negativeTweets = this.tweetRetriever.getTweetsForTraining(NEGATIVE_QUERY);
 		System.out.println("negative taken " + negativeTweets.size());
 		
 
 		// Salva i tweet tokenizzati sul db con la relativa categoria
-		this.dbm.addTweetsForTraining(positiveTweets, POSITIVE_CATEGORY);
-		this.dbm.addTweetsForTraining(negativeTweets, NEGATIVE_CATEGORY);
+		this.dbManager.addTweetsForTraining(positiveTweets, POSITIVE_CATEGORY);
+		this.dbManager.addTweetsForTraining(negativeTweets, NEGATIVE_CATEGORY);
 		
-		this.ct.createWekaFileForTrain(positiveTweets, negativeTweets);
+		this.trainingSetCreator.createWekaFileForTrain(positiveTweets, negativeTweets);
 		
 		System.out.println("DONE 2");
 
@@ -79,7 +79,7 @@ public class TweetTrainer {
 	/* Prende la lista dei tweet positivi e negativi salvati sul db 
 	   e addestra il classificatore */
 	public void trainFromDB() throws IOException {
-		List<Document> tweetsFromDB = this.dbm.getTweetsForTraining();
+		List<Document> tweetsFromDB = this.dbManager.getTweetsForTraining();
 		List<String> posTweets = new ArrayList<>();
 		List<String> negTweets = new ArrayList<>();
 
@@ -94,7 +94,7 @@ public class TweetTrainer {
 
 			}
 			
-		this.ct.createWekaFileForTrain(posTweets, negTweets);
+		this.trainingSetCreator.createWekaFileForTrain(posTweets, negTweets);
 		
 		} else {
 			System.out.println("No documents retrieved from db");
@@ -104,7 +104,7 @@ public class TweetTrainer {
 	
 
 	public void flushDB() {
-		this.dbm.removeAllDocuments();
+		this.dbManager.removeAllDocuments();
 	}
 	
 	

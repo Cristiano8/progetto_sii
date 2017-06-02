@@ -5,22 +5,22 @@ import java.util.List;
 
 public class TweetClassifier {
 	
-	private CreatePredictionFile cpf;
-	private WekaClassifier wc;
+	private CreatePredictionFile predictionFileCreator;
+	private WekaClassifier wekaClassifier;
 	
 	public TweetClassifier() throws Exception {
-		this.cpf = new CreatePredictionFile();
-		this.wc = new WekaClassifier();
+		this.predictionFileCreator = new CreatePredictionFile();
+		this.wekaClassifier = new WekaClassifier();
 	}
 
 	public List<PredictionResult> classifyTweets(List<String> tweets) throws Exception {
 
 		List<PredictionResult> prList = new ArrayList<>();
 		
-		cpf.createFileARFFToPredict(tweets);
+		predictionFileCreator.createFileARFFToPredict(tweets);
 
 		for (int i=1; i<=tweets.size(); i++) {
-			prList.add(wc.getBaselineClassification(i));
+			prList.add(wekaClassifier.getBaselineClassification(i));
 		}
 
 		return prList;

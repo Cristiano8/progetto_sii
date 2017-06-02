@@ -1,5 +1,6 @@
 package main;
 
+import java.io.File;
 import java.util.List;
 
 import classifier.PredictionResult;
@@ -10,42 +11,59 @@ import trainer.TweetTrainer;
 
 public class EventSentimentAnalysis {
 	
-	private TweetTrainer tt;
-	private TweetRetriever tr;
-	private TweetClassifier tc;
+	private static final String PATHNAME = "train/tweet-train.arff";
+	private static final boolean NEW = false;
+	
+	private TweetTrainer tweetTrainer;
+	private TweetRetriever tweetRetriever;
+	private TweetClassifier tweetClassifier;
 	private Output output;
 
 	
 	public EventSentimentAnalysis(String query) throws Exception {
 		
-		this.tt = new TweetTrainer();
-		this.tr = TweetRetriever.getInstance();
-		this.tc = new TweetClassifier();
+		this.tweetTrainer = new TweetTrainer();
+		this.tweetRetriever = TweetRetriever.getInstance();
+		this.tweetClassifier = new TweetClassifier();
 		this.output = new Output();
 
 		
+		/*Se si vuole cominciare un altra ricerca prima si svuota il db, basta cambiare la costante NEW*/
+		if(NEW){
 			
-		/* training da twitter se il db è vuoto e se il file ARFF non c'è */
-		this.tt.trainFromTwitter(); 
-		System.out.println("Trained from Twitter");
+			this.tweetTrainer.flushDB();
+		
+		}
+		
+		
+		/*Se il file ARFF è gia presente non prendere i tweet per fare il training*/
+		File arff = new File(PATHNAME);
+		if(!arff.exists()){
+			
+			/* training da twitter se il db è vuoto e se il file ARFF non c'è */
+			this.tweetTrainer.trainFromTwitter(); 
+			System.out.println("Trained from Twitter");
+			
+		}
+			
 		
 		/* training dal file LIWC (prima chiamata) */
-//		this.tc.trainFromLIWC();
+//		this.tweetClassifier.trainFromLIWC();
 //		System.out.println("Trained from LIWC");
-//		this.tc.printClassifier();
+//		this.tweetClassifier.printClassifier();
 		
 		/* training dal db se il file ARFF non c'è */
-//		this.tt.trainFromDB();
+//		this.tweetTrainer.trainFromDB();
 //		System.out.println("Trained from db");
 		
 		/* per svuotare il db */
-//		this.tc.flushDB(); 
+//		this.tweetClassifier.flushDB(); 
 		
 		/* Prende i tweet da classificare */
-		List<String> tweetRetrieved = this.tr.getTweetsForHashtag(query);
+		List<String> tweetRetrieved = this.tweetRetriever.getTweetsForHashtag(query);
 		
 		/* valuta il sentiment realativo alla query */
-		List<PredictionResult> classification = this.tc.classifyTweets(tweetRetrieved);
+		List<PredictionResult> classification = this.tweetClassifier.classifyTweets(tweetRetrieved);
 		
 		this.output.analize(classification);
 	}

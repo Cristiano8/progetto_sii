@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tweetprocessing.TweetCleaner;
-import twitter4j.ExtendedMediaEntity;
+import twitter4j.ExtendedMediaEntity
 import twitter4j.GeoLocation;
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
@@ -266,7 +266,6 @@ public class TweetTokenizerTest {
 				return false;
 			}
 			
-			@Override
 			public String[] getWithheldInCountries() {
 				// TODO Auto-generated method stub
 				return null;
@@ -308,13 +307,11 @@ public class TweetTokenizerTest {
 				return 0;
 			}
 			
-			@Override
 			public long getQuotedStatusId() {
 				// TODO Auto-generated method stub
 				return 0;
 			}
 			
-			@Override
 			public Status getQuotedStatus() {
 				// TODO Auto-generated method stub
 				return null;

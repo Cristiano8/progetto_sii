@@ -21,16 +21,16 @@ public class TweetRetriever {
 	
 	private static TweetRetriever instance;
 	
-	private TwitterConnection tc;
+	private TwitterConnection twitterConnection;
 	private Twitter twitter;	
-	private TweetCleaner tcl;
-	private TweetProcessor tp;
+	private TweetCleaner tweetCleaner;
+	private TweetProcessor tweetProcessor;
 
 	private TweetRetriever() {
-		this.tc = new TwitterConnection();
-		this.twitter = tc.getTwitter();
-		this.tp = new TweetProcessor();
-		this.tcl = new TweetCleaner();
+		this.twitterConnection = new TwitterConnection();
+		this.twitter = twitterConnection.getTwitter();
+		this.tweetProcessor = new TweetProcessor();
+		this.tweetCleaner = new TweetCleaner();
 	}
 	
 	public static TweetRetriever getInstance() {
@@ -65,7 +65,7 @@ public class TweetRetriever {
 			System.out.println("Failed to perform training search: " + te.getMessage());
 		}
 
-		return this.tcl.clean(tweets);
+		return this.tweetCleaner.clean(tweets);
 	}
 
 	public List<String> getTweetsForHashtag(String query) throws TwitterException {
@@ -85,7 +85,7 @@ public class TweetRetriever {
 
 				for (Status tweet : tweetsInAPage) {
 					if (!tweet.isRetweet()) { // aggiungo gli hashtag alla mappa solo se non appartengono a retweet
-						tp.addRelatedHashtags(tweet.getText(), query); // aggiungo altri hashtag nel Tweet
+						tweetProcessor.addRelatedHashtags(tweet.getText(), query); // aggiungo altri hashtag nel Tweet
 					}
 
 				}
@@ -99,7 +99,7 @@ public class TweetRetriever {
 
 		tweets.addAll(this.extendQuery());
 
-		return this.tcl.clean(tweets);
+		return this.tweetCleaner.clean(tweets);
 
 
 	}
@@ -108,7 +108,7 @@ public class TweetRetriever {
 	 * recuperati dalla prima query */
 	private List<Status> extendQuery() throws TwitterException {
 
-		List<String> hashtagsForSecondQuery = this.tp.getTop3Hashtags();
+		List<String> hashtagsForSecondQuery = this.tweetProcessor.getTop3Hashtags();
 
 		String hashtag1 = hashtagsForSecondQuery.get(0);
 		String hashtag2 = hashtagsForSecondQuery.get(1);
