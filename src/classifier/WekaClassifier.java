@@ -1,6 +1,7 @@
 package classifier;
 
 
+import util.Constants;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.meta.FilteredClassifier;
 import weka.core.Instances;
@@ -15,11 +16,11 @@ public class WekaClassifier {
 		
 		PredictionResult result = new PredictionResult();
 		
-		DataSource source = new DataSource("train/tweet-train.arff");
+		DataSource source = new DataSource(Constants.TRAINING_PATH);
 		Instances train = source.getDataSet();
 		train.setClassIndex(train.numAttributes() - 1);
 		
-		DataSource dest = new DataSource("predict/tweets.arff");
+		DataSource dest = new DataSource(Constants.PREDICT_PATH);
 		Instances test = dest.getDataSet();
 		test.setClassIndex(test.numAttributes() - 1);
 

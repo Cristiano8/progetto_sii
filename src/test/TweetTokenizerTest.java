@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tweetprocessing.TweetCleaner;
-import twitter4j.ExtendedMediaEntity
+import twitter4j.ExtendedMediaEntity;
 import twitter4j.GeoLocation;
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;

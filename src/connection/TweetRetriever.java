@@ -69,6 +69,8 @@ public class TweetRetriever {
 	}
 
 	public List<String> getTweetsForHashtag(String query) throws TwitterException {
+		
+		System.out.println("First search for query: " + query);
 
 		List<Status> tweets = new ArrayList<>(); // conterrà tutti i tweet della prima query
 
@@ -107,14 +109,14 @@ public class TweetRetriever {
 	/* seconda query fatta accoppiando gli hashtag che hanno più occorrenze nei tweet
 	 * recuperati dalla prima query */
 	private List<Status> extendQuery() throws TwitterException {
-
+	
 		List<String> hashtagsForSecondQuery = this.tweetProcessor.getTop3Hashtags();
 
 		String hashtag1 = hashtagsForSecondQuery.get(0);
 		String hashtag2 = hashtagsForSecondQuery.get(1);
 		String hashtag3 = hashtagsForSecondQuery.get(2);
 
-		System.out.println(hashtag1 + " " + hashtag2 + " " + hashtag3);
+		System.out.println("Top 3 hashtag identified: " + hashtag1 + " " + hashtag2 + " " + hashtag3);
 
 		String query1 = "(" + hashtag1 + " AND " + hashtag2 + ")";
 		String query2 = "(" + hashtag2 + " AND " + hashtag3 + ")";
@@ -122,6 +124,8 @@ public class TweetRetriever {
 		
 
 		List<Status> tweetsFromExtendedSearch = new ArrayList<>();
+		
+		System.out.println("Extending the search");
 
 		try {
 

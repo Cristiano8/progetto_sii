@@ -4,10 +4,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import util.Constants;
+
 public class CreateTrainingSet {
 
-	private static final String POSITIVE_CATEGORY = "positive";
-	private static final String NEGATIVE_CATEGORY = "negative";
 
 	public void createWekaFileForTrain(List<String> posTweets, List<String> negTweets) throws IOException {
 		
@@ -23,12 +23,12 @@ public class CreateTrainingSet {
 		fileArff.write("\n");
 		
 		for (String ptweet : posTweets) {
-			fileArff.write("\'" + ptweet + "\'" + "," + POSITIVE_CATEGORY);
+			fileArff.write("\'" + ptweet + "\'" + "," + Constants.POSITIVE_CATEGORY);
 			fileArff.write("\n");
 		}
 		
 		for (String ntweet : negTweets) {
-			fileArff.write("\'" + ntweet + "\'" + "," + NEGATIVE_CATEGORY);
+			fileArff.write("\'" + ntweet + "\'" + "," + Constants.NEGATIVE_CATEGORY);
 			fileArff.write("\n");
 		}
 		

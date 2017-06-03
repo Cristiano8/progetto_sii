@@ -14,6 +14,8 @@ public class TweetClassifier {
 	}
 
 	public List<PredictionResult> classifyTweets(List<String> tweets) throws Exception {
+		
+		System.out.println("Classifying tweets retrieved");
 
 		List<PredictionResult> prList = new ArrayList<>();
 		
