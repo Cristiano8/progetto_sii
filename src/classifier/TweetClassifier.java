@@ -1,6 +1,6 @@
 package classifier;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class TweetClassifier {
@@ -17,15 +17,12 @@ public class TweetClassifier {
 		
 		System.out.println("Classifying tweets retrieved");
 
-		List<PredictionResult> prList = new ArrayList<>();
-		
 		predictionFileCreator.createFileARFFToPredict(tweets);
-
-		for (int i=1; i<=tweets.size(); i++) {
-			prList.add(wekaClassifier.getBaselineClassification(i));
-		}
-
-		return prList;
+		this.wekaClassifier.createDataSource();
+		
+		System.out.println("File predict created");
+		
+		return this.wekaClassifier.getBaselineClassification();
 
 	}
 

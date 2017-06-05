@@ -1,6 +1,9 @@
 package classifier;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import util.Constants;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.meta.FilteredClassifier;
@@ -11,21 +14,18 @@ import weka.filters.unsupervised.attribute.StringToWordVector;
 
 public class WekaClassifier {
 
+	private Instances train;
+	private Instances test;
+	private FilteredClassifier fc;
 
-	public PredictionResult getBaselineClassification(int cont) throws Exception {
-		
-		PredictionResult result = new PredictionResult();
-		
+	public WekaClassifier() throws Exception {
 		DataSource source = new DataSource(Constants.TRAINING_PATH);
-		Instances train = source.getDataSet();
-		train.setClassIndex(train.numAttributes() - 1);
+		this.train = source.getDataSet();
+		this.train.setClassIndex(train.numAttributes() - 1);
 		
-		DataSource dest = new DataSource(Constants.PREDICT_PATH);
-		Instances test = dest.getDataSet();
-		test.setClassIndex(test.numAttributes() - 1);
 
 		NaiveBayes naive = new NaiveBayes();
-		FilteredClassifier fc = new FilteredClassifier();
+		this.fc = new FilteredClassifier();
 		NGramTokenizer tokenizer = new NGramTokenizer();
 		tokenizer.setNGramMinSize(1);
 		tokenizer.setNGramMaxSize(1);
@@ -47,14 +47,36 @@ public class WekaClassifier {
 		// train and make predictions
 		fc.buildClassifier(train);
 
-		double[] rate = fc.distributionForInstance(test.instance(0));
-
-		double pred = fc.classifyInstance(test.instance(0));
-		result.setRate(rate);
-		result.setClassPredicted(test.classAttribute().value((int) pred));
+	}
 
 
+	public List<PredictionResult> getBaselineClassification() throws Exception {
+
+		List<PredictionResult> result = new ArrayList<PredictionResult>();
+
+		double[] rate;
+		double pred;
+		
+		
+		for (int i = 0; i<test.numInstances(); i++) {
+			
+			rate = fc.distributionForInstance(test.instance(i));
+						
+			pred = fc.classifyInstance(test.instance(i));
+			
+			System.out.println(test.instance(i).toString() + " | " + rate[0] + " | " + rate[1] + " | " + pred);
+			
+			result.add(new PredictionResult((int)pred, rate));
+		}
+		
 		return result;
+	}
+	
+	public void createDataSource() throws Exception {
+		
+		DataSource dest = new DataSource(Constants.PREDICT_PATH);
+		this.test = dest.getDataSet();
+		this.test.setClassIndex(test.numAttributes() - 1);
 	}
 
 

@@ -3,13 +3,18 @@ package classifier;
 public class PredictionResult {
 	
 	private double[] rate;
-	private String classPredicted;
+	private int classPredicted;
 	
+	public PredictionResult(int pred, double[] rate) {
+		this.classPredicted = pred;
+		this.rate = rate;
+	}
+
 	public void setRate(double[] rate) {
 		this.rate = rate;
 	}
 	
-	public void setClassPredicted(String classPredicted) {
+	public void setClassPredicted(int classPredicted) {
 		this.classPredicted = classPredicted;
 	}
 	
@@ -22,7 +27,7 @@ public class PredictionResult {
 		return rate;
 	}
 
-	public String getClassPredicted() {
+	public int getClassPredicted() {
 		return classPredicted;
 	}
 

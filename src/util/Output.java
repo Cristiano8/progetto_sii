@@ -13,14 +13,14 @@ public class Output {
 		int total = classification.size();
 		
 		for (PredictionResult c : classification) {
-			if (c.getClassPredicted().equals("positive"))
+			if (c.getClassPredicted() == 0)
 				pos++;
 			else
 				neg++;
 		}
 		
-		System.out.println("Percentage of positive tweets: " + (pos/total) * 100 + "%");
-		System.out.println("Percentage of negative tweets: " + (neg/total) * 100 + "%");
+		System.out.println("Percentage of positive tweets: " + ((double) pos/total) * 100 + "%");
+		System.out.println("Percentage of negative tweets: " + ((double) neg/total) * 100 + "%");
 	}
 
 }
