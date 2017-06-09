@@ -4,34 +4,7 @@ import java.io.FileWriter;
 import java.util.List;
 
 public class CreatePredictionFile {
-	
-//	public String createDatasetCopy(String tweet, String fileName) throws Exception {
-//		String prediction = fileName + ".arff";
-//		FileWriter fileArff = new FileWriter(prediction);
-//		fileArff.write("@relation isTweetTarget");	
-//		fileArff.write("\n");
-//		fileArff.write("@attribute tweet string");
-//		fileArff.write("\n");
-//		fileArff.write("@attribute class {positive, negative}");
-//		fileArff.write("\n");
-//		fileArff.write("@data");
-//		fileArff.write("\n");
-//
-//		try {
-//			String line = tweet;
-//			line = line.replaceAll("'", " ");
-//			line = line.toLowerCase();
-//			fileArff.write("\"" + line + "\"" + "," + "?");
-//			fileArff.write("\n");
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		fileArff.close();
-//
-//		return prediction;
-//	}
+
 
 	public void createFileARFFToPredict(List<String> tweets) throws Exception {
 		

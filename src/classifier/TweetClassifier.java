@@ -18,7 +18,7 @@ public class TweetClassifier {
 		System.out.println("Classifying tweets retrieved");
 
 		predictionFileCreator.createFileARFFToPredict(tweets);
-		this.wekaClassifier.createDataSource();
+		this.wekaClassifier.initClassifier();
 		
 		System.out.println("File predict created");
 		

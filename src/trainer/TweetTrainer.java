@@ -29,6 +29,7 @@ public class TweetTrainer {
 		this.trainingSetCreator = new CreateTrainingSet();
 		this.tweetRetriever = TweetRetriever.getInstance();
 		
+		
 	}
 
 	
@@ -63,7 +64,7 @@ public class TweetTrainer {
 		
 		this.trainingSetCreator.createWekaFileForTrain(positiveTweets, negativeTweets);
 		
-		System.out.println("DONE 2");
+		System.out.println("Trained from Twitter");
 
 	}
 
